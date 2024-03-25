@@ -8,6 +8,7 @@ use App\Services\UserService;
 use Gate;
 use Illuminate\Http\Request;
 use Mail;
+use Str;
 
 class UserController extends Controller
 {
@@ -54,7 +55,10 @@ class UserController extends Controller
             "first_name" => 'required|string',
             "last_name" => 'required|string',
         ]);
+        $password = Str::password(8, true, true, true, false);
+        $validated["password"] = $password;
         $user = $this->userService->create($validated);
+        $user["gen_pass"] = $password;
         Mail::to($user)->send(new NewUser($user));
         return response()->json([
             "message" => "successful",
