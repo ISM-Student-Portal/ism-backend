@@ -46,7 +46,7 @@ class UserController extends Controller
     public function createUser(Request $request){
         if(! Gate::allows('create-user', auth()->user())){
             return response()->json([
-                "message" => "not allowed"
+                "message" => "You are not an Admin"
             ], 403);
         }
         $validated = $request->validate([
