@@ -47,4 +47,18 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::findOrFail($id);
     }
+
+    public function createProfile(array $data)
+    {
+        // dd(auth()->user()->id);
+        $user = User::where('id', auth()->user()->id)->first();
+        return $user->profile()->create($data);
+    }
+
+    public function updateProfile(array $data)
+    {
+        // dd(auth()->user()->id);
+        $user = User::where('id', auth()->user()->id)->first();
+        return $user->profile()->update($data);
+    }
 }

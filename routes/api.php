@@ -16,4 +16,11 @@ Route::get('/create-super-admin', [UserController::class, 'createSuperAdminUser'
 
 Route::middleware('auth:sanctum')->post('/create-user', [UserController::class, 'createUser'])->name('create_user');
 
+Route::middleware('auth:sanctum')->post('/create-profile', [UserController::class, 'createProfile'])->name('create_profile');
+
+Route::middleware('auth:sanctum')->patch('/update-profile', [UserController::class, 'updateProfile'])->name('update_profile');
+
+Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
+
+
 

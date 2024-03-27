@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
 use App\Models\User;
 use App\Services\UserService;
 use Gate;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Mail;
 use Str;
 
@@ -16,11 +18,11 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
 
-     public function __construct(
+    public function __construct(
         protected UserService $userService
-     ){
+    ) {
 
-     }
+    }
     public function index()
     {
         //
@@ -29,9 +31,10 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function createSuperAdminUser(){
+    public function createSuperAdminUser()
+    {
         $superAdmin = User::where('email', '=', 'super_admin@ism.com')->first();
-        if($superAdmin === null){
+        if ($superAdmin === null) {
             $user = $this->userService->createSuperAdmin();
             return response()->json([
                 "message" => "successful",
@@ -43,8 +46,9 @@ class UserController extends Controller
         ], 422);
     }
 
-    public function createUser(Request $request){
-        if(! Gate::allows('create-user', auth()->user())){
+    public function createUser(Request $request)
+    {
+        if (!Gate::allows('create-user', auth()->user())) {
             return response()->json([
                 "message" => "You are not an Admin"
             ], 403);
@@ -64,6 +68,38 @@ class UserController extends Controller
             "message" => "successful",
             "user" => $user
         ], 200);
+    }
+
+    public function createProfile(Request $request)
+    {
+        $validated = $request->validate([
+            "address" => "required|string",
+            "profile_pix_url" => 'required|string',
+            "country" => 'required|string',
+        ]);
+        $profile = $this->userService->createProfile($validated);
+
+        return response()->json([
+            "message" => "Profile Created Successfully",
+            "user_profile" => $profile
+        ], 200);
+
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $validated = $request->validate([
+            "address" => "sometimes|string",
+            "profile_pix_url" => 'sometimes|string',
+            "country" => 'sometimes|string',
+        ]);
+        $profile = $this->userService->updateProfile($validated);
+
+        return response()->json([
+            "message" => "Profile Updated Successfully",
+            "user_profile" => $profile
+        ], 200);
+
     }
 
     /**
@@ -104,5 +140,36 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function batchCreateUser(Request $request)
+    {
+
+        if (!Gate::allows('create-user', auth()->user())) {
+            return response()->json([
+                "message" => "You are not an Admin"
+            ], 403);
+        }
+        // dd("I got here");
+
+
+
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls',
+            ]);
+            // ...
+            $file = $request->file;
+            // $path=storage_path('app').'/'.$file;
+            $array = Excel::toArray(new UserEmailImport, $file);
+            dd($array[0]);
+            return response()->json([], 200);
+
+        }
+
+
+
+
+
+
     }
 }

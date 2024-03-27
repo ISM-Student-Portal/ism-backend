@@ -40,4 +40,15 @@ class UserService
     {
         return $this->userRepository->find($id);
     }
+
+    public function createProfile(array $data)
+    {
+        return $this->userRepository->createProfile($data);
+    }
+
+    public function updateProfile(array $data){
+        return $this->userRepository->updateProfile($data);
+    }
+
+
 }
