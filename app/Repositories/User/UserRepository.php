@@ -20,13 +20,11 @@ class UserRepository implements UserRepositoryInterface
     public function createSuperAdmin()
     {
         return User::create([
-            "email"=> 'super_admin@ism.com',
-            "first_name" => "super",
-            "last_name" => "admin",
-            "phone_number" => "08135321769",
+            "email"=> 'super_admin@ism.com',            
             "password"=> bcrypt('password'),
             "is_admin" => true,
-            "is_superadmin" => true
+            "is_superadmin" => true,
+            "profile_done" => true,
         ]);
     }
 

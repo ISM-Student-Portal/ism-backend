@@ -45,4 +45,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function toArray(){
+        return [
+            'id' => $this->id,
+            'email'=> $this->email,
+            'is_admin'=> $this->is_admin,
+            'profile_done'=>$this->profile_done,
+
+            'is_superadmin'=>$this->is_superadmin,
+            'profile'=>$this->profile
+        ];
+    }
 }

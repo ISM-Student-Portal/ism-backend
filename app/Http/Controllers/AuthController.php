@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,10 @@ class AuthController extends Controller
         ]);
         if(Auth::attempt($validated)){
             $token = auth()->user()->createToken('user');
+            $user = User::where('id',auth()->user()->id )->first();
             return response()->json([
                 "status" => "success",
+                'user'=> $user,
                 "token" => $token
             ], 201);
         }
