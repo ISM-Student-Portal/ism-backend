@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->string('country')->nullable();
+            $table->enum('subscription', ['basic', 'premium'])->default('basic');
             $table->string('profile_pix_url')->nullable();
             $table->string('name_on_cert')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
