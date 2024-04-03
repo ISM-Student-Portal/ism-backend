@@ -20,5 +20,7 @@ interface UserRepositoryInterface
 
     public function updateProfile(array $data);
 
+    public function getStudents();
+
     
 }

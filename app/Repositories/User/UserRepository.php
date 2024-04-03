@@ -59,4 +59,10 @@ class UserRepository implements UserRepositoryInterface
         $user = User::where('id', auth()->user()->id)->first();
         return $user->profile()->update($data);
     }
+
+    public function getStudents()
+    {
+        $students = User::where('is_admin', '!=', 1)->get();
+        return $students;
+    }
 }

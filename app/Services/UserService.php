@@ -50,5 +50,9 @@ class UserService
         return $this->userRepository->updateProfile($data);
     }
 
+    public function getStudents(){
+        return $this->userRepository->getStudents();
+    }
+
 
 }

@@ -54,14 +54,16 @@ class UserController extends Controller
             ], 403);
         }
         $validated = $request->validate([
-            "email" => "required|email|unique:users,email",
-            "phone_number" => 'required|unique:users,phone_number',
-            "first_name" => 'required|string',
-            "last_name" => 'required|string',
+            "email" => "required|email|unique:users,email",            
         ]);
         $password = Str::password(8, true, true, true, false);
         $validated["password"] = $password;
         $user = $this->userService->create($validated);
+        $user->profile()->create([
+            "last_name" => $request->input('last_name'),
+            "phone" => $request->input('phone_number'),
+            "first_name" => $request->input('first_name'),
+        ]);
         $user["gen_pass"] = $password;
         Mail::to($user)->send(new NewUser($user));
         return response()->json([
@@ -70,12 +72,28 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function getStudents(){
+        if (!Gate::allows('create-user', auth()->user())) {
+            return response()->json([
+                "message" => "You are not an Admin"
+            ], 403);
+        };
+        $students = $this->userService->getStudents();
+        return response()->json([
+            "message" => "successful",
+            "students" => $students
+        ], 200);
+    }
+
     public function createProfile(Request $request)
     {
         $validated = $request->validate([
-            "address" => "required|string",
-            "profile_pix_url" => 'required|string',
-            "country" => 'required|string',
+            "first_name" => "sometimes|string",
+            "last_name" => "sometimes|string",
+            "phone_number" => 'sometimes|unique:profiles,phone_number',
+            "address" => "sometimes|string",
+            "profile_pix_url" => 'sometimes|string',
+            "country" => 'sometimes|string',
         ]);
         $profile = $this->userService->createProfile($validated);
 
