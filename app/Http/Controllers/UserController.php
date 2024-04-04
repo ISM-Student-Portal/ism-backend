@@ -6,6 +6,7 @@ use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
 use App\Models\User;
 use App\Services\UserService;
+use Exception;
 use Gate;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -54,7 +55,7 @@ class UserController extends Controller
             ], 403);
         }
         $validated = $request->validate([
-            "email" => "required|email|unique:users,email",            
+            "email" => "required|email|unique:users,email",
         ]);
         $password = Str::password(8, true, true, true, false);
         $validated["password"] = $password;
@@ -72,12 +73,14 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getStudents(){
+    public function getStudents()
+    {
         if (!Gate::allows('create-user', auth()->user())) {
             return response()->json([
                 "message" => "You are not an Admin"
             ], 403);
-        };
+        }
+        ;
         $students = $this->userService->getStudents();
         return response()->json([
             "message" => "successful",
@@ -179,8 +182,32 @@ class UserController extends Controller
             $file = $request->file;
             // $path=storage_path('app').'/'.$file;
             $array = Excel::toArray(new UserEmailImport, $file);
-            dd($array[0]);
-            return response()->json([], 200);
+            $list = $array[0];
+            foreach ($list as $entry) {
+                try {
+                    $password = Str::password(8, true, true, true, false);
+                    $data["password"] = $password;
+                    $data["email"] = $entry[0];
+                    $user = $this->userService->create($data);
+
+                    $user->profile()->create([
+                        "last_name" => $entry[3],
+                        "phone" => $entry[1],
+                        "first_name" => $entry[2],
+                    ]);
+                    Mail::to($user)->send(new NewUser($user));
+                }
+                catch(Exception $e){
+                    $errors = [];
+                    array_push($errors, $e);
+                }
+
+                # code...
+            }
+            return response()->json([
+                "message" => "Users created Scuccessfully",
+                "errors" => $errors
+            ], 200);
 
         }
 
