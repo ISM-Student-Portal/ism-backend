@@ -62,7 +62,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getStudents()
     {
-        $students = User::where('is_admin', '!=', 1)->get();
+        $students = User::where('is_admin', '!=', 1)->latest()->get();
         return $students;
     }
 }
