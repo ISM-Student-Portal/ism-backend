@@ -9,11 +9,10 @@
     <div>
     Welcome {{$user->first_name}},
     You have been granted access
-
     <div>
         <h3>Login Details</h3>
         <p>email:  {{$user->email}}</p>
-        <p>password:  {{$user->gen_pass}}</p>
+        <p>password:  {{$password}}</p>
 
     </div>
 </div>

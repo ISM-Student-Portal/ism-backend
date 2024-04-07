@@ -58,7 +58,7 @@ class UserController extends Controller
             "email" => "required|email|unique:users,email",
         ]);
         $password = Str::password(8, true, true, true, false);
-        $validated["password"] = $password;
+        $validated["password"] = bcrypt($password);
         $user = $this->userService->create($validated);
         $user->profile()->create([
             "last_name" => $request->input('last_name'),
@@ -183,9 +183,13 @@ class UserController extends Controller
             // $path=storage_path('app').'/'.$file;
             $array = Excel::toArray(new UserEmailImport, $file);
             $list = $array[0];
+            // dd($list);
             foreach ($list as $entry) {
+                if($entry[0] === null){
+                    break;
+                }
                 try {
-                    $password = Str::password(8, true, true, true, false);
+                    $password = Str::password(8, true, true, false, false);
                     $data["password"] = $password;
                     $data["email"] = $entry[0];
                     $user = $this->userService->create($data);
@@ -194,8 +198,16 @@ class UserController extends Controller
                         "last_name" => $entry[3],
                         "phone" => $entry[1],
                         "first_name" => $entry[2],
+                        "country" => $entry[4],
+                        "city" => $entry[6],
+                        "address" => $entry[5],
+                        "gender" => trim($entry[7]),
+                        
                     ]);
-                    Mail::to($user)->send(new NewUser($user));
+                    // $user['gen_pass'] = $password;
+                    // dd($password);
+                    Mail::to($user)->later(now()->addSeconds(3), new NewUser($user, $password));
+                    // Mail::to($user)->send(new NewUser($user, $password));
                 }
                 catch(Exception $e){
                     $errors = [];
@@ -205,8 +217,8 @@ class UserController extends Controller
                 # code...
             }
             return response()->json([
-                "message" => "Users created Scuccessfully",
-                "errors" => $errors
+                "message" => "Users created Successfully",
+                "errors" => $errors ?? []
             ], 200);
 
         }
