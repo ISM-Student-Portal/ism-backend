@@ -32,6 +32,10 @@ class User extends Authenticatable
     public function profile(){
         return $this->hasOne(Profile::class);
     }
+    public function attendances(){
+        return $this->belongsToMany(Attendance::class);
+    }
+    
 
     /**
      * Get the attributes that should be cast.
