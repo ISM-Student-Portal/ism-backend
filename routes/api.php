@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::middleware('auth:sanctum')->post('/create-profile', [UserController::clas
 Route::middleware('auth:sanctum')->patch('/update-profile', [UserController::class, 'updateProfile'])->name('update_profile');
 
 Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
+
+Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function (){
+    Route::post('/classroom', 'store');
+    Route::get('/classroom', 'index');
+});
 
 
 
