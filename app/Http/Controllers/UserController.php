@@ -57,7 +57,7 @@ class UserController extends Controller
         $validated = $request->validate([
             "email" => "required|email|unique:users,email",
         ]);
-        $password = Str::password(8, true, true, true, false);
+        $password = Str::password(8, true, true, false, false);
         $validated["password"] = bcrypt($password);
         $user = $this->userService->create($validated);
         $user->profile()->create([
@@ -65,8 +65,8 @@ class UserController extends Controller
             "phone" => $request->input('phone_number'),
             "first_name" => $request->input('first_name'),
         ]);
-        $user["gen_pass"] = $password;
-        Mail::to($user)->send(new NewUser($user));
+        // $user["gen_pass"] = $password;
+        Mail::to($user)->send(new NewUser($user, $password));
         return response()->json([
             "message" => "successful",
             "user" => $user
