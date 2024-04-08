@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
 use App\Models\User;
+use App\Services\AdminService;
 use App\Services\UserService;
 use Exception;
 use Gate;
@@ -228,5 +229,13 @@ class UserController extends Controller
 
 
 
+    }
+
+    public function getDashboardStats(){
+        $stats = AdminService::getDashboardStats();
+        return response()->json([
+            'status' => 'success',
+            'stats' => $stats
+        ], 200);
     }
 }
