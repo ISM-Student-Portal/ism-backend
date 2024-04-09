@@ -59,7 +59,7 @@ class UserController extends Controller
             "email" => "required|email|unique:users,email",
         ]);
         $password = Str::password(8, true, true, false, false);
-        $validated["password"] = bcrypt($password);
+        $validated["password"] = $password;
         $user = $this->userService->create($validated);
         $user->profile()->create([
             "last_name" => $request->input('last_name'),
