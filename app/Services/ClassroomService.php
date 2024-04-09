@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Attendance;
+use App\Models\Classroom;
+use App\Models\User;
 use App\Repositories\Classroom\ClassroomRepositoryInterface;
 
 class ClassroomService
@@ -37,6 +40,22 @@ class ClassroomService
     {
         return $this->classroomRepository->find($id);
     }
+
+    public function markAttendance($id)
+    {
+        $existingAttendance = Attendance::where('classroom_id', $id)->first();
+        if (is_null($existingAttendance)) {
+            $classroom = Classroom::findOrFail($id);
+            $existingAttendance = $classroom->attendance()->create([]);
+        }
+        $user = User::find(auth()->user()->id);
+        $user->attendances()->attach($existingAttendance->id);
+
+        return $user->attendances;
+        // $classroom->
+    }
+
+
 
 
 

@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::clas
 Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function (){
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
+    Route::put('/mark-attendance/{id}', 'markAttendance');
 });
 
 

@@ -33,7 +33,7 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
     public function attendances(){
-        return $this->belongsToMany(Attendance::class);
+        return $this->belongsToMany(Attendance::class) ->as('user_attendance');
     }
     
 

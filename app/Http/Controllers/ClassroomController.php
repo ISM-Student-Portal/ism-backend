@@ -22,11 +22,7 @@ class ClassroomController extends Controller
     {
         //
 
-        if (!Gate::allows('create-user', auth()->user())) {
-            return response()->json([
-                "message" => "You are not an Admin"
-            ], 403);
-        }
+        
 
         $classes = $this->classroomSevice->all();
         return response()->json([
@@ -101,5 +97,13 @@ class ClassroomController extends Controller
     public function destroy(Classroom $classroom)
     {
         //
+    }
+
+    public function markAttendance(Request $request, string $id){
+        $attendance = $this->classroomSevice->markAttendance($id);
+        return response()->json([
+            "status" => "Success",
+            "data" => $attendance
+        ], 200);
     }
 }
