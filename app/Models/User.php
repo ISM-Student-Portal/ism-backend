@@ -58,7 +58,8 @@ class User extends Authenticatable
             'profile_done'=>$this->profile_done,
 
             'is_superadmin'=>$this->is_superadmin,
-            'profile'=>$this->profile
+            'profile'=>$this->profile,
+            'attendances' => $this->attendances
         ];
     }
 }
