@@ -22,5 +22,10 @@ interface UserRepositoryInterface
 
     public function getStudents();
 
+    public function setAdminStatus($id, $is_admin);
+
+    public function setActiveStatus($id, $is_active);
+
+
     
 }

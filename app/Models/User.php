@@ -55,6 +55,8 @@ class User extends Authenticatable
             'id' => $this->id,
             'email'=> $this->email,
             'is_admin'=> $this->is_admin,
+            'is_active'=> $this->is_active,
+
             'profile_done'=>$this->profile_done,
 
             'is_superadmin'=>$this->is_superadmin,

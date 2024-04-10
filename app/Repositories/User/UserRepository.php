@@ -66,7 +66,23 @@ class UserRepository implements UserRepositoryInterface
 
     public function getStudents()
     {
-        $students = User::where('is_admin', '!=', 1)->latest()->get();
+        $students = User::where('is_superadmin', '!=', 1)->latest()->get();
         return $students;
+    }
+
+    public function setAdminStatus($id, $is_admin)
+    {
+        $student = User::where('id', '=', $id)->first();
+        $student->is_admin = $is_admin;
+        $student->save();
+        return $student;
+    }
+
+    public function setActiveStatus($id, $is_active)
+    {
+        $student = User::where('id', '=', $id)->first();
+        $student->is_active = $is_active;
+        $student->save();
+        return $student;
     }
 }

@@ -54,5 +54,12 @@ class UserService
         return $this->userRepository->getStudents();
     }
 
+    public function setAdminStatus($id, $is_admin){
+        return $this->userRepository->setAdminStatus($id, $is_admin);
+    }
+    public function setActiveStatus($id, $is_active){
+        return $this->userRepository->setActiveStatus($id, $is_active);
+    }
+
 
 }

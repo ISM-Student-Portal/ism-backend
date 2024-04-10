@@ -186,7 +186,7 @@ class UserController extends Controller
             $list = $array[0];
             // dd($list);
             foreach ($list as $entry) {
-                if($entry[0] === null){
+                if ($entry[0] === null) {
                     break;
                 }
                 try {
@@ -203,14 +203,13 @@ class UserController extends Controller
                         "city" => $entry[6],
                         "address" => $entry[5],
                         "gender" => trim($entry[7]),
-                        
+
                     ]);
                     // $user['gen_pass'] = $password;
                     // dd($password);
                     Mail::to($user)->later(now()->addSeconds(3), new NewUser($user, $password));
                     // Mail::to($user)->send(new NewUser($user, $password));
-                }
-                catch(Exception $e){
+                } catch (Exception $e) {
                     $errors = [];
                     array_push($errors, $e);
                 }
@@ -231,11 +230,30 @@ class UserController extends Controller
 
     }
 
-    public function getDashboardStats(){
+    public function getDashboardStats()
+    {
         $stats = AdminService::getDashboardStats();
         return response()->json([
             'status' => 'success',
             'stats' => $stats
+        ], 200);
+    }
+
+    public function setAdminStatus($id, Request $request)
+    {
+        $res = $this->userService->setAdminStatus($id, $request->input('is_admin'));
+        return response()->json([
+            'status' => 'success',
+            'stats' => $res
+        ], 200);
+    }
+
+    public function setActiveStatus($id, Request $request)
+    {
+        $res = $this->userService->setActiveStatus($id, $request->input('is_active'));
+        return response()->json([
+            'status' => 'success',
+            'stats' => $res
         ], 200);
     }
 }

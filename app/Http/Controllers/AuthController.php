@@ -14,6 +14,7 @@ class AuthController extends Controller
             'email'=> 'required|email',
             'password'=>'required'
         ]);
+        $validated['is_active'] = 1;
         if(Auth::attempt($validated)){
             $token = auth()->user()->createToken('user');
             $user = User::where('id',auth()->user()->id )->first();
