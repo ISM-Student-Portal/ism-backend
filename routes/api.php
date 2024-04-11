@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
     Route::put('/mark-attendance/{id}', 'markAttendance');
+    Route::get('/view-attendance/{id}', 'getClassAttendance');
 });
 
 

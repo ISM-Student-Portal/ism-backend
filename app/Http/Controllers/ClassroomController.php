@@ -106,4 +106,12 @@ class ClassroomController extends Controller
             "data" => $attendance
         ], 200);
     }
+
+    public function getClassAttendance(string $id){
+        $attendance = $this->classroomSevice->getClassAttendance($id);
+        return response()->json([
+            "status" => "Success",
+            "data" => $attendance
+        ], 200);
+    }
 }
