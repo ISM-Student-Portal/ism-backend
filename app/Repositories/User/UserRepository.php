@@ -68,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getStudents()
     {
-        $students = User::where('is_superadmin', '!=', 1)->latest()->get();
+        $students = User::where('is_superadmin', '!=', 1)->with(['attendances', 'profile'])->latest()->get();
         return $students;
     }
 
