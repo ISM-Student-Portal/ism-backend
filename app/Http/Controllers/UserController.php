@@ -58,8 +58,10 @@ class UserController extends Controller
         $validated = $request->validate([
             "email" => "required|email|unique:users,email",
         ]);
+        $reg_id = $this->generateStudentReg();
         $password = Str::password(8, true, true, false, false);
         $validated["password"] = $password;
+        $validated["reg_no"] = $reg_id;
         $user = $this->userService->create($validated);
         $user->profile()->create([
             "last_name" => $request->input('last_name'),
@@ -143,9 +145,29 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function generateStudentReg()
     {
         //
+        $latest = User::latest('created_at')->first();
+        if (is_null($latest)) {
+            $counter = 0;
+        } else {
+            $ar = (explode('/', $latest->reg_no));
+            $counter = $ar[2];
+        }
+
+        $nextNum = intval($counter) + 1;
+
+        if (strlen((string) $nextNum) === 1)
+            $num = '00' . $nextNum;
+        else if (strlen((string) $nextNum) === 2)
+            $num = '0' . $nextNum;
+        else if (strlen((string) $nextNum) >= 3)
+            $num = $nextNum;
+        $id = 'ISM/2024/' . $num;
+
+        return $id;
+
     }
 
     /**
@@ -186,24 +208,24 @@ class UserController extends Controller
             $list = $array[0];
             // dd($list);
             foreach ($list as $entry) {
+                if ($entry[0] === "Registration Number") {
+                    continue;
+                }
                 if ($entry[0] === null) {
                     break;
                 }
                 try {
                     $password = Str::password(8, true, true, false, false);
                     $data["password"] = $password;
-                    $data["email"] = $entry[0];
+                    $data["email"] = $entry[1];
+                    $data["reg_no"] = $entry[0];
                     $user = $this->userService->create($data);
 
                     $user->profile()->create([
-                        "last_name" => $entry[3],
-                        "phone" => $entry[1],
-                        "first_name" => $entry[2],
-                        "country" => $entry[4],
-                        "city" => $entry[6],
-                        "address" => $entry[5],
-                        "gender" => trim($entry[7]),
-
+                        "last_name" => $entry[2],
+                        "phone" => $entry[4],
+                        "first_name" => $entry[3],
+                        'subscription' => strtolower($entry[6]) == 'basic training' ? 'basic' : 'premium'
                     ]);
                     // $user['gen_pass'] = $password;
                     // dd($password);
