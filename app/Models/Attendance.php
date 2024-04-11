@@ -10,7 +10,7 @@ class Attendance extends Model
     use HasFactory;
 
     public function users(){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->as('user_attendance');
     }
 
     public function classroom(){
