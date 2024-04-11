@@ -33,7 +33,7 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
     public function attendances(){
-        return $this->belongsToMany(Attendance::class) ->as('user_attendance');
+        return $this->belongsToMany(Attendance::class)->as('user_attendance');
     }
     
 
@@ -50,19 +50,5 @@ class User extends Authenticatable
         ];
     }
 
-    public function toArray(){
-        return [
-            'id' => $this->id,
-            'email'=> $this->email,
-            'is_admin'=> $this->is_admin,
-            'is_active'=> $this->is_active,
-
-            'profile_done'=>$this->profile_done,
-            'reg_no' => $this->reg_no,
-
-            'is_superadmin'=>$this->is_superadmin,
-            'profile'=>$this->profile,
-            'attendances' => $this->attendances
-        ];
-    }
+   
 }

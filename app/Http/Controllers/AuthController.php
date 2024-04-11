@@ -17,7 +17,7 @@ class AuthController extends Controller
         $validated['is_active'] = 1;
         if(Auth::attempt($validated)){
             $token = auth()->user()->createToken('user');
-            $user = User::where('id',auth()->user()->id )->first();
+            $user = User::where('id',auth()->user()->id )->with(['attendances', 'profile'])->first();
             return response()->json([
                 "status" => "success",
                 'user'=> $user,

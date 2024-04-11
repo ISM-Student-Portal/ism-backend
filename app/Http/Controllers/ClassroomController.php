@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Services\ClassroomService;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -53,13 +54,15 @@ class ClassroomController extends Controller
                 "message" => "You are not an Admin"
             ], 403);
         }
+        $expiry = Carbon::now()->addHours(24)->toDateTimeString();
 
         $validated = $request->validate([
             "title" => "required|string",
             "description" => "sometimes|string",
             "link" => "required|string",
-            "expires_on" =>"sometimes|date"
+            // "expires_on" =>"sometimes|date"
         ]);
+        $validated['expires_on'] = $expiry;
         $classroom = $this->classroomSevice->create($validated);
         return response()->json([
             'status' => "Successful",
