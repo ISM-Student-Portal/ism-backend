@@ -58,6 +58,7 @@ class User extends Authenticatable
             'is_active'=> $this->is_active,
 
             'profile_done'=>$this->profile_done,
+            'reg_no' => $this->reg_no,
 
             'is_superadmin'=>$this->is_superadmin,
             'profile'=>$this->profile,
