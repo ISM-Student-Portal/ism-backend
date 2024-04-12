@@ -14,7 +14,7 @@ class ClassroomController extends Controller
      * Display a listing of the resource.
      */
 
-     public function __construct(
+    public function __construct(
         protected ClassroomService $classroomSevice
     ) {
 
@@ -23,14 +23,14 @@ class ClassroomController extends Controller
     {
         //
 
-        
+
 
         $classes = $this->classroomSevice->all();
         return response()->json([
             'status' => "Successful",
             'data' => $classes
         ], 200);
-        
+
     }
 
     /**
@@ -40,7 +40,7 @@ class ClassroomController extends Controller
     {
         //
 
-       
+
     }
 
     /**
@@ -97,12 +97,20 @@ class ClassroomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classroom $classroom)
+    public function destroy($id)
     {
         //
+        $classroom = Classroom::find($id);
+        $classroom->attendance()->delete();
+        $classroom->delete();
+        return response()->json([
+            "status" => "Success",
+            "data" => $classroom
+        ], 200);
     }
 
-    public function markAttendance(Request $request, string $id){
+    public function markAttendance(Request $request, string $id)
+    {
         $attendance = $this->classroomSevice->markAttendance($id);
         return response()->json([
             "status" => "Success",
@@ -110,7 +118,8 @@ class ClassroomController extends Controller
         ], 200);
     }
 
-    public function getClassAttendance(string $id){
+    public function getClassAttendance(string $id)
+    {
         $attendance = $this->classroomSevice->getClassAttendance($id);
         return response()->json([
             "status" => "Success",

@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->put('/set-active-status/{id}', [UserControlle
 Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function (){
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
+    Route::delete('/classroom/{id}', 'destroy');
+
     Route::put('/mark-attendance/{id}', 'markAttendance');
     Route::get('/view-attendance/{id}', 'getClassAttendance');
 });
