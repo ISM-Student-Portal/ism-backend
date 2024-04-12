@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->patch('/update-profile', [UserController::cla
 Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
 
 Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
+Route::middleware('auth:sanctum')->get('/student-dashboard-stats', [UserController::class, 'getStudentDashboardStats'])->name('dashboard');
+
 Route::middleware('auth:sanctum')->put('/set-admin-status/{id}', [UserController::class, 'setAdminStatus']);
 Route::middleware('auth:sanctum')->put('/set-active-status/{id}', [UserController::class, 'setActiveStatus']);
 

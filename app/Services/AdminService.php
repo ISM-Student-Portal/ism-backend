@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Services;
+use App\Models\Assignment;
 use App\Models\Classroom;
+use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
@@ -27,6 +29,19 @@ class AdminService
             'classes' => $classes,
             'basicSub' => $basicSub,
             'premiumSub' => $premiumSub,
+        ];
+   }
+
+   public static function getStudentDashboardStats()
+   {
+        $assignmentCount = Assignment::count();
+        $classes = Classroom::count();
+        $assignmentSubmitted = Submission::where('student_id', '=', auth()->user()->id)->count();
+        
+        return [
+            'total_assignment' => $assignmentCount,
+            'classes' => $classes,
+            'assign_sub' => $assignmentSubmitted,
         ];
    }
 

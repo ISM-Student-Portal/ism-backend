@@ -254,6 +254,14 @@ class UserController extends Controller
             'stats' => $stats
         ], 200);
     }
+    public function getStudentDashboardStats()
+    {
+        $stats = AdminService::getStudentDashboardStats();
+        return response()->json([
+            'status' => 'success',
+            'stats' => $stats
+        ], 200);
+    }
 
     public function setAdminStatus($id, Request $request)
     {
