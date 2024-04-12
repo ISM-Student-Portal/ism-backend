@@ -72,11 +72,14 @@ class UserRepository implements UserRepositoryInterface
         return $students;
     }
 
-    public function setAdminStatus($id, $is_admin)
+    public function setAdminStatus($id, $data)
     {
         $student = User::where('id', '=', $id)->first();
-        $student->is_admin = $is_admin;
+        $student->is_admin = $data['is_admin'];
         $student->save();
+        $student->profile->update([
+            "subscription" => $data['subscription']
+        ]);
         return $student;
     }
 
