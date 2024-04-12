@@ -244,12 +244,6 @@ class UserController extends Controller
             ], 200);
 
         }
-
-
-
-
-
-
     }
 
     public function getDashboardStats()
@@ -263,7 +257,7 @@ class UserController extends Controller
 
     public function setAdminStatus($id, Request $request)
     {
-        $res = $this->userService->setAdminStatus($id, $request->input('is_admin'));
+        $res = $this->userService->setAdminStatus($id, $request->input());
         return response()->json([
             'status' => 'success',
             'stats' => $res
