@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,10 @@ Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group
     Route::put('/mark-attendance/{id}', 'markAttendance');
     Route::get('/view-attendance/{id}', 'getClassAttendance');
 });
+
+Route::middleware('auth:sanctum')->resource('assignments', AssignmentController::class);
+Route::middleware('auth:sanctum')->resource('submissions', SubmissionController::class);
+
 
 
 

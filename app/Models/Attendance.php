@@ -9,11 +9,13 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    public function users(){
-        return $this->belongsToMany(User::class)->as('user_attendance');
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->as('attendance_user')->withTimestamps();
     }
 
-    public function classroom(){
+    public function classroom()
+    {
         return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 }
