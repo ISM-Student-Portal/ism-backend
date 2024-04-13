@@ -48,7 +48,7 @@ class SubmissionController extends Controller
         $assignment = Assignment::find($validated['assignment_id']);
         $assignment->submissions()->create([
             "student_id" => auth()->user()->id,
-            "feedbacks" => $validated['feedbacks'],
+            "feedbacks" => $validated['feedbacks'] ?? null,
             "link" => $validated['link'],
         ]);
         $submission = Submission::where('student_id', '=', auth()->user()->id)->where('assignment_id', '=', $validated['assignment_id'])->first();

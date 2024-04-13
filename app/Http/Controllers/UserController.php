@@ -58,10 +58,8 @@ class UserController extends Controller
         $validated = $request->validate([
             "email" => "required|email|unique:users,email",
         ]);
-        $reg_id = $this->generateStudentReg();
         $password = Str::password(8, true, true, false, false);
         $validated["password"] = $password;
-        $validated["reg_no"] = $reg_id;
         $user = $this->userService->create($validated);
         $user->profile()->create([
             "last_name" => $request->input('last_name'),

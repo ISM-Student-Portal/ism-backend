@@ -18,7 +18,7 @@ class UserRepository implements UserRepositoryInterface
         return User::create([
             "email"=> $data["email"],            
             "password"=> bcrypt($data["password"]),
-            "reg_no" => $data['reg_no']
+            "reg_no" => $data['reg_no'] ?? null
         ]);
     } 
 
