@@ -16,6 +16,20 @@ class AssignmentController extends Controller
     public function index()
     {
         //
+        $assignment = Assignment::with([
+            'submissions' => function ($query) {
+                $query->with('student');
+            }
+        ])->get();
+        return response()->json([
+            "message" => 'Success',
+            "assignments" => $assignment
+        ]);
+    }
+
+    public function getAssignments()
+    {
+        //
         $assignment = Assignment::get();
         return response()->json([
             "message" => 'Success',
@@ -45,14 +59,14 @@ class AssignmentController extends Controller
         $validated = $request->validate([
             "title" => "required|string",
             "description" => "required|string",
-            "link" => "sometimes|string",
-            "deadline" =>"required|date",
-            "file" =>"sometimes|max:10240"
+            "link" => "sometimes",
+            "deadline" => "required|date",
+            "file" => "sometimes|max:10240"
         ]);
         $adminId = auth()->user()->id;
-        if($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $originalName = $request->file->getClientOriginalName();
-            $path = "assignments/$adminId/". $originalName;
+            $path = "assignments/$adminId/" . $originalName;
             Storage::disk('local')->put($path, file_get_contents($request->file));
             $validated['file_url'] = $path;
             unset($validated['file']);
@@ -60,9 +74,9 @@ class AssignmentController extends Controller
         $assignment = Assignment::create([
             "title" => $validated["title"],
             "description" => $validated["description"],
-            "link" => $validated["link"],
+            "link" => $validated["link"] ?? null,
             "deadline" => Carbon::create($validated["deadline"])->toDateTimeString(),
-            "file_url" => $validated["file_url"],
+            "file_url" => $validated["file_url"] ?? null,
             "created_by" => $adminId
 
         ]);
@@ -72,7 +86,7 @@ class AssignmentController extends Controller
         ]);
 
 
-        
+
 
     }
 
