@@ -30,7 +30,13 @@ class AssignmentController extends Controller
     public function getAssignments()
     {
         //
-        $assignment = Assignment::get();
+        $assignment = Assignment::with([
+            'submissions' => function ($query) {
+                $query->with(['student' => function($query){
+                    $query->where('id', '=', auth()->user()->id);
+                }]);
+            }
+        ])->get();
         return response()->json([
             "message" => 'Success',
             "assignments" => $assignment

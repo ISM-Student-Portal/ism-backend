@@ -14,6 +14,13 @@ class SubmissionController extends Controller
     public function index()
     {
         //
+        // dd(auth()->user()->id);
+        $submissions = Submission::with(['assignment'])->where('student_id', '=', auth()->user()->id)->get();
+        return response()->json([
+            "message" => 'Success',
+            "submission" => $submissions
+        ]);
+
     }
 
 
@@ -73,6 +80,15 @@ class SubmissionController extends Controller
     public function update(Request $request, Submission $submission)
     {
         //
+        $res = $submission->update([
+            'grade' => $request->input('grade')
+        ]);
+
+        return response()->json([
+            "message" => 'Success',
+            "submission" => $res
+        ]);
+
     }
 
     /**
