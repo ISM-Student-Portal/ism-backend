@@ -111,15 +111,24 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         $validated = $request->validate([
-            "address" => "sometimes|string",
-            "profile_pix_url" => 'sometimes|string',
-            "country" => 'sometimes|string',
+            "address" => "sometimes",
+            "profile_pix_url" => 'sometimes',
+            "country" => 'sometimes',
+            "middle_name" => 'sometimes',
+            "last_name" => 'sometimes',
+            "first_name" => 'sometimes',
+            "city" => 'sometimes',
+            "alt_email" => 'sometimes',
+            "alt_phone" => 'sometimes',
+            "name_on_cert" => 'sometimes'
         ]);
         $profile = $this->userService->updateProfile($validated);
+        $user = User::with('profile')->find(auth()->user()->id);
 
         return response()->json([
+            "status" => 'success',
             "message" => "Profile Updated Successfully",
-            "user_profile" => $profile
+            "user_profile" => $user
         ], 200);
 
     }
