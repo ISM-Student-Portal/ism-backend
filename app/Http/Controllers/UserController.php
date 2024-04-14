@@ -133,6 +133,23 @@ class UserController extends Controller
 
     }
 
+    public function updateProfilePix(Request $request)
+    {
+        $validated = $request->validate([
+            'profile_pix_url' => 'sometimes'
+        ]);
+        $profile = $this->userService->updateProfile($validated);
+        $user = User::with('profile')->find(auth()->user()->id);
+
+        return response()->json([
+            "status" => 'success',
+            "message" => "Profile Pix Updated Successfully",
+            "user_profile" => $user
+        ], 200);
+
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

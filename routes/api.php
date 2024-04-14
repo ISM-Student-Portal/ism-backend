@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/students', [UserController::class, 'get
 Route::middleware('auth:sanctum')->post('/create-profile', [UserController::class, 'createProfile'])->name('create_profile');
 
 Route::middleware('auth:sanctum')->patch('/update-profile', [UserController::class, 'updateProfile'])->name('update_profile');
+Route::middleware('auth:sanctum')->patch('/update-profile-pix', [UserController::class, 'updateProfilePix'])->name('update_profile');
 
 Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
 
