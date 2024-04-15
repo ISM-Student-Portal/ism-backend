@@ -59,7 +59,7 @@ class ClassroomService
     {
         $attendance = Attendance::where('classroom_id', $id)->first();
 
-        return $attendance->users()->distinct()->get();
+        return $attendance->users()->with('profile')->distinct()->get();
     }
 
 
