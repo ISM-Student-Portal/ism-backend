@@ -18,6 +18,7 @@ class UserRepository implements UserRepositoryInterface
         return User::create([
             "email"=> $data["email"],            
             "password"=> bcrypt($data["password"]),
+            "is_admin" => $data['is_admin'] ?? null,
             "reg_no" => $data['reg_no'] ?? null
         ]);
     } 
@@ -68,8 +69,14 @@ class UserRepository implements UserRepositoryInterface
 
     public function getStudents()
     {
-        $students = User::where('is_superadmin', '!=', 1)->with(['attendances', 'profile'])->latest()->get();
+        $students = User::where('is_superadmin', '!=', 1)->where('is_admin', '!=', 1)->with(['attendances', 'profile'])->latest()->get();
         return $students;
+    }
+
+    public function getAdmins()
+    {
+        $admins = User::where('is_superadmin', '=', 1)->orWhere('is_admin', '=', 1)->with(['attendances', 'profile'])->latest()->get();
+        return $admins;
     }
 
     public function setAdminStatus($id, $data)

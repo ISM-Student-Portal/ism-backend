@@ -19,7 +19,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/create-super-admin', [UserController::class, 'createSuperAdminUser'])->name('create_admin');
 
 Route::middleware('auth:sanctum')->post('/create-user', [UserController::class, 'createUser'])->name('create_user');
+Route::middleware('auth:sanctum')->post('/create-admin', [UserController::class, 'CreateAdmin'])->name('create_admin');
+
 Route::middleware('auth:sanctum')->get('/students', [UserController::class, 'getStudents'])->name('students');
+Route::middleware('auth:sanctum')->get('/admins', [UserController::class, 'getAdmins'])->name('admins');
+
 
 Route::middleware('auth:sanctum')->post('/create-profile', [UserController::class, 'createProfile'])->name('create_profile');
 
@@ -29,6 +33,12 @@ Route::middleware('auth:sanctum')->put('/update-profile-pix', [UserController::c
 Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
 
 Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
+Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
+
+
+
 Route::middleware('auth:sanctum')->get('/student-dashboard-stats', [UserController::class, 'getStudentDashboardStats'])->name('dashboard');
 
 Route::middleware('auth:sanctum')->put('/set-admin-status/{id}', [UserController::class, 'setAdminStatus']);
@@ -40,7 +50,7 @@ Route::middleware('auth:sanctum')->get('/get-assignments', [AssignmentController
 
 
 
-Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function (){
+Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function () {
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
     Route::delete('/classroom/{id}', 'destroy');

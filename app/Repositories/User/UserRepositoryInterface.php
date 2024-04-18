@@ -21,6 +21,7 @@ interface UserRepositoryInterface
     public function updateProfile(array $data);
 
     public function getStudents();
+    public function getAdmins();
 
     public function setAdminStatus($id, $is_admin);
 

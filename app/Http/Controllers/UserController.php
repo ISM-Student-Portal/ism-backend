@@ -74,6 +74,33 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function createAdmin(Request $request)
+    {
+        if (!Gate::allows('create-user', auth()->user())) {
+            return response()->json([
+                "message" => "You are not an Admin"
+            ], 403);
+        }
+        $validated = $request->validate([
+            "email" => "required|email|unique:users,email",
+        ]);
+        $password = Str::password(8, true, true, false, false);
+        $validated["password"] = $password;
+        $validated["is_admin"] = true;
+        $user = $this->userService->create($validated);
+        $user->profile()->create([
+            "last_name" => $request->input('last_name'),
+            "phone" => $request->input('phone_number'),
+            "first_name" => $request->input('first_name'),
+        ]);
+        // $user["gen_pass"] = $password;
+        Mail::to($user)->send(new NewUser($user, $password));
+        return response()->json([
+            "message" => "successful",
+            "user" => $user
+        ], 200);
+    }
+
     public function getStudents()
     {
         if (!Gate::allows('create-user', auth()->user())) {
@@ -86,6 +113,21 @@ class UserController extends Controller
         return response()->json([
             "message" => "successful",
             "students" => $students
+        ], 200);
+    }
+
+    public function getAdmins()
+    {
+        if (!Gate::allows('create-user', auth()->user())) {
+            return response()->json([
+                "message" => "You are not an Admin"
+            ], 403);
+        }
+        ;
+        $admins = $this->userService->getAdmins();
+        return response()->json([
+            "message" => "successful",
+            "students" => $admins
         ], 200);
     }
 
