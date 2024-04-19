@@ -46,6 +46,8 @@ Route::middleware('auth:sanctum')->put('/set-active-status/{id}', [UserControlle
 
 
 Route::middleware('auth:sanctum')->get('/get-assignments', [AssignmentController::class, 'getAssignments']);
+Route::middleware('auth:sanctum')->get('/get-classrooms', [ClassroomController::class, 'getClassrooms']);
+
 
 
 

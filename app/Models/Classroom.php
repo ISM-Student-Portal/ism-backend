@@ -15,15 +15,5 @@ class Classroom extends Model
         return $this->hasOne(Attendance::class);
     }
 
-    public function toArray(){
-        return [
-            "id" => $this->id,
-            "title" => $this->title,
-            "description" => $this->description,
-            "link" => $this->link,
-            "expires_on" => $this->expires_on,
-            "attendance" => $this->attendance ?? null
-
-        ];
-    }
+   
 }
