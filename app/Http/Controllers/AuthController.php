@@ -104,7 +104,7 @@ class AuthController extends Controller
             return response()->json(['email' => 'Email not found'], 400);
         //Hash and update the new password
         $user->password = bcrypt($request->input('password'));
-        $user->update(); 
+        $user->update();
 
 
         //Delete the token
@@ -113,6 +113,17 @@ class AuthController extends Controller
 
         //Send Email Reset Success Email
         return response()->json(['message' => trans('Reset done'), 'status' => 'success'], 200);
+
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = User::where('id', '=', auth()->user()->id);
+        $user->update([
+            'password' => bcrypt($request->input('password')),
+            'first_login' => false
+        ]);
+        return response()->json(['message' => trans('Password Changed Successfully'), 'status' => 'success'], 200);
 
     }
 

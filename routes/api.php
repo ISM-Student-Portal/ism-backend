@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class,
 Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
 Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
-Route::post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
+Route::middleware('auth:sanctum')->post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
 
 
 
