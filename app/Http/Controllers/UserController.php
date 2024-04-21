@@ -285,6 +285,7 @@ class UserController extends Controller
                     $data["password"] = $password;
                     $data["email"] = $entry[1];
                     $data["reg_no"] = $entry[0];
+                    $data["is_admin"] = 0;
                     $user = $this->userService->create($data);
 
                     $user->profile()->create([
