@@ -10,7 +10,7 @@ class ClassroomRepository implements ClassroomRepositoryInterface
 {
     public function all()
     {
-        return Classroom::all();
+        return Classroom::latest()->get();
     }
 
     public function create(array $data)

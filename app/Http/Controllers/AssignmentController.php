@@ -20,7 +20,7 @@ class AssignmentController extends Controller
             'submissions' => function ($query) {
                 $query->with('student');
             }
-        ])->get();
+        ])->latest()->get();
         return response()->json([
             "message" => 'Success',
             "assignments" => $assignment
@@ -32,9 +32,11 @@ class AssignmentController extends Controller
         //
         $assignment = Assignment::with([
             'submissions' => function ($query) {
-                $query->with(['student' => function($query){
-                    $query->where('id', '=', auth()->user()->id);
-                }]);
+                $query->with([
+                    'student' => function ($query) {
+                        $query->where('id', '=', auth()->user()->id);
+                    }
+                ]);
             }
         ])->get();
         return response()->json([
@@ -127,11 +129,12 @@ class AssignmentController extends Controller
     {
         //
         $res = $assignment->delete();
-        return response()->json([
-            'message'=> "success",
-            'data' => $res
-        ]
-            
+        return response()->json(
+            [
+                'message' => "success",
+                'data' => $res
+            ]
+
         );
     }
 }
