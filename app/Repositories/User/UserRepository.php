@@ -64,7 +64,7 @@ class UserRepository implements UserRepositoryInterface
     {
         // dd(auth()->user()->id);
         $user = User::where('id', auth()->user()->id)->first();
-        return $user->profile()->updateOrCreate($data);
+        return $user->profile()->update($data);
     }
 
     public function getStudents()
