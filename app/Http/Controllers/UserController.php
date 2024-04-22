@@ -313,6 +313,31 @@ class UserController extends Controller
         }
     }
 
+    public function updateUserMails()
+    {
+        $users = User::where("is_admin", '=', 0)->get();
+        foreach ($users as $user) {
+            try {
+                $password = Str::password(8, true, true, false, false);
+                $user->update([
+                    'password' => bcrypt($password)
+                ]);
+                // $user['gen_pass'] = $password;
+                // dd($password);
+                Mail::to($user)->later(now()->addSeconds(3), new NewUser($user, $password));
+                // Mail::to($user)->send(new NewUser($user, $password));
+            } catch (Exception $e) {
+                $errors = [];
+                array_push($errors, $e);
+            }
+        }
+
+        return response()->json([
+            "message" => "mails resent Successfully",
+            "errors" => $errors ?? []
+        ], 200);
+    }
+
     public function getDashboardStats()
     {
         $stats = AdminService::getDashboardStats();
