@@ -68,7 +68,7 @@ class AssignmentController extends Controller
             "title" => "required|string",
             "description" => "required|string",
             "link" => "sometimes",
-            "deadline" => "required|date",
+            "deadline" => "sometimes|date",
             "file" => "sometimes|max:10240"
         ]);
         $adminId = auth()->user()->id;
@@ -79,15 +79,20 @@ class AssignmentController extends Controller
             $validated['file_url'] = $path;
             unset($validated['file']);
         }
-        $assignment = Assignment::create([
+        $data = [
             "title" => $validated["title"],
             "description" => $validated["description"],
             "link" => $validated["link"] ?? null,
-            "deadline" => Carbon::create($validated["deadline"])->toDateTimeString(),
             "file_url" => $validated["file_url"] ?? null,
             "created_by" => $adminId
 
-        ]);
+        ];
+        if (array_key_exists('deadline', $data)) {
+            $dt = Carbon::create($data['deadline']);
+            $dt = $dt->toDateTimeString();
+            $data['deadline'] = $dt;
+        }
+        $assignment = Assignment::create($data);
         return response()->json([
             "message" => 'Success',
             "assignment" => $assignment
