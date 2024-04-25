@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
 use App\Models\Assignment;
@@ -39,6 +40,9 @@ Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('
 Route::post('/resend-mail', [UserController::class, 'updateUserMails'])->name('password.change');
 
 Route::middleware('auth:sanctum')->post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
+
+Route::middleware('auth:sanctum')->get('/get-admission-letter', [PdfExportController::class, 'admissionLetter'])->name('admission.letter');
+
 
 
 
