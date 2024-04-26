@@ -34,7 +34,7 @@
             <div>
 
                 <header>
-                    <img src="/var/www/html/public/imgs/ism-logo.png" style="float: right" />
+                    <img src="../public/imgs/ism-logo.png" style="float: right" />
                 </header>
                 <div style="clear: both"></div>
                 <div>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div>
-                    <img src="/var/www/html/public/imgs/signatue-ism.png" style="float: right" />
+                    <img src="../public/imgs/signatue-ism.png" style="float: right" />
                 </div>
                 <div style="clear: both"></div>
 
