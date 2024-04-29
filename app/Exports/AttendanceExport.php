@@ -29,9 +29,9 @@ class AttendanceExport implements WithMapping, FromQuery, WithProperties, WithHe
         // dd($user);
         return [
             $user->email,
-            $user->profile->first_name,
-            $user->profile->last_name,
-            $user->attendance_user->created_at,
+            $user->profile->first_name ?? null,
+            $user->profile->last_name ?? null,
+            $user->attendance_user->created_at ?? null,
         ];
     }
 
@@ -63,7 +63,7 @@ class AttendanceExport implements WithMapping, FromQuery, WithProperties, WithHe
         $username = Profile::where('user_id', '=', auth()->user()->id)->first();
 
         return [
-            'creator' => $username->first_name . ' ' . $username->last_name,
+            'creator' => $username->first_name ?? " " . ' ' . $username->last_name ?? " ",
             'title' => 'Attendance List',
         ];
     }
