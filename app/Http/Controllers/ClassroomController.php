@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceExport;
 use App\Models\Classroom;
 use App\Services\ClassroomService;
 use Carbon\Carbon;
@@ -140,5 +141,11 @@ class ClassroomController extends Controller
             "status" => "Success",
             "data" => $attendance
         ], 200);
+    }
+
+    public function exportClassAttendance(string $id)
+    {
+        return (new AttendanceExport($id))->download('attendance.xlsx');
+        
     }
 }

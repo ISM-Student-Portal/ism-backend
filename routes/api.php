@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group
 
     Route::put('/mark-attendance/{id}', 'markAttendance');
     Route::get('/view-attendance/{id}', 'getClassAttendance');
+    Route::get('/attendance-export/{id}', 'exportClassAttendance');
 });
 
 Route::middleware('auth:sanctum')->resource('assignments', AssignmentController::class);
