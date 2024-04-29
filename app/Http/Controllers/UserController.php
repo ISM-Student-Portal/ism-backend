@@ -57,6 +57,7 @@ class UserController extends Controller
         }
         $validated = $request->validate([
             "email" => "required|email|unique:users,email",
+            "reg_no" => "sometimes|string"
         ]);
         $password = Str::password(8, true, true, false, false);
         $validated["password"] = $password;
