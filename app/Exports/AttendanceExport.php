@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithProperties;
 
-class AttendanceExport implements WithMapping, FromQuery, WithProperties, WithHeadings, ShouldAutoSize
+class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAutoSize
 {
     use Exportable;
     /**
@@ -58,15 +58,15 @@ class AttendanceExport implements WithMapping, FromQuery, WithProperties, WithHe
 
 
 
-    public function properties(): array
-    {
-        $username = Profile::where('user_id', '=', auth()->user()->id)->first();
+    // public function properties(): array
+    // {
+    //     $username = Profile::where('user_id', '=', auth()->user()->id)->first();
 
-        return [
-            'creator' => $username->first_name ?? " " . ' ' . $username->last_name ?? " ",
-            'title' => 'Attendance List',
-        ];
-    }
+    //     return [
+    //         'creator' => $username->first_name ?? " " . ' ' . $username->last_name ?? " ",
+    //         'title' => 'Attendance List',
+    //     ];
+    // }
 
     function query()
     {
