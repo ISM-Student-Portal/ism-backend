@@ -29,6 +29,7 @@ class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAu
         // dd($user);
         return [
             $user->email,
+            $user->reg_no,
             $user->profile->first_name ?? null,
             $user->profile->last_name ?? null,
             $user->attendance_user->created_at ?? null,
@@ -48,6 +49,7 @@ class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAu
             ],
             [
                 'Email',
+                'Matric No',
                 'First Name',
                 'Last Name',
                 'Clock In Time',
