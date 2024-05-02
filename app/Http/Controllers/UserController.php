@@ -366,4 +366,13 @@ class UserController extends Controller
             'stats' => $res
         ], 200);
     }
+
+    public function attendanceReport(Request $request)
+    {
+        $res = $this->userService->attendanceReport();
+        return response()->json([
+            'status' => 'success',
+            'stats' => $res
+        ], 200);
+    }
 }
