@@ -79,7 +79,7 @@ class UserService
         $students = User::where('is_admin', '=', 0)->get();
         foreach ($students as $student) {
             $count = $student->attendances()->count();
-            $percentAttendance = $count / $totalClasses * 100;
+            $percentAttendance = round($count / $totalClasses * 100, 2);
             $student['attendance_count'] = $count;
             $student['attendance_count_percent'] = $percentAttendance;
         }
