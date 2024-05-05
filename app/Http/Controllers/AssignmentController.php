@@ -102,6 +102,17 @@ class AssignmentController extends Controller
 
     }
 
+    public function downloadFile(Request $request)
+    {
+        $url = $request->input('file_url');
+        if ($url) {
+            return Storage::download($url);
+        }
+        return response()->json([
+            "message" => "error"
+        ], 405);
+    }
+
     /**
      * Display the specified resource.
      */

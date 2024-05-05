@@ -72,6 +72,8 @@ Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group
 });
 
 Route::middleware('auth:sanctum')->resource('assignments', AssignmentController::class);
+Route::middleware('auth:sanctum')->post('download-file', [AssignmentController::class, 'downloadFile']);
+
 Route::middleware('auth:sanctum')->resource('submissions', SubmissionController::class);
 
 
