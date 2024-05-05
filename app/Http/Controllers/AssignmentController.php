@@ -87,9 +87,10 @@ class AssignmentController extends Controller
             "created_by" => $adminId
 
         ];
-        if (array_key_exists('deadline', $data)) {
-            $dt = Carbon::create($data['deadline']);
+        if (array_key_exists('deadline', $validated)) {
+            $dt = Carbon::create($validated['deadline']);
             $dt = $dt->toDateTimeString();
+            // dd($dt);
             $data['deadline'] = $dt;
         }
         $assignment = Assignment::create($data);
