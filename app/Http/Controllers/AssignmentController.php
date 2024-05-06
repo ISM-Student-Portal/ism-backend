@@ -36,7 +36,7 @@ class AssignmentController extends Controller
                     'student'
                 ])->where('student_id', '=', auth()->user()->id);
             }
-        ])->get();
+        ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
             "assignments" => $assignment
@@ -105,8 +105,10 @@ class AssignmentController extends Controller
     public function downloadFile(Request $request)
     {
         $url = $request->input('file_url');
-        if ($url) {
-            return Storage::download($url);
+        $assignment = Assignment::where('file_url', '=', $url)->first();
+        $docName = preg_replace('/\s+/', '_', $assignment->title);
+        if ($docName) {
+            return Storage::download($url, $docName, ['file_name' => $docName]);
         }
         return response()->json([
             "message" => "error"
