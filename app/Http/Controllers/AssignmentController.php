@@ -67,16 +67,10 @@ class AssignmentController extends Controller
             "description" => "required|string",
             "link" => "sometimes",
             "deadline" => "sometimes|date",
-            "file" => "sometimes|max:10240"
+            "file_url" => "sometimes|max:10240"
         ]);
         $adminId = auth()->user()->id;
-        if ($request->hasFile('file')) {
-            $originalName = $request->file->getClientOriginalName();
-            $path = "assignments/$adminId/" . $originalName;
-            Storage::disk('local')->put($path, file_get_contents($request->file));
-            $validated['file_url'] = $path;
-            unset($validated['file']);
-        }
+       
         $data = [
             "title" => $validated["title"],
             "description" => $validated["description"],
@@ -105,10 +99,12 @@ class AssignmentController extends Controller
     public function downloadFile(Request $request)
     {
         $url = $request->input('file_url');
-        $assignment = Assignment::where('file_url', '=', $url)->first();
-        $docName = preg_replace('/\s+/', '_', $assignment->title);
-        if ($docName) {
-            return Storage::download($url, $docName, ['file_name' => $docName]);
+        $urlArr = explode("/", $url);
+        $path = Storage::url($urlArr[count($urlArr) -1]);
+        // dd($path);
+
+        if ($url) {
+            return Storage::download($path);
         }
         return response()->json([
             "message" => "error"
@@ -116,7 +112,7 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.  
      */
     public function show(Assignment $assignment)
     {
