@@ -26,6 +26,7 @@ class ClassroomRepository implements ClassroomRepositoryInterface
             "description" => $data["description"],
             "link" => $data["link"],
             "expires_on" => $dt ?? null,
+            "mentorship" => $data["mentorship"] ?? null,
             "created_by" => auth()->user()->id
         ]);
     }

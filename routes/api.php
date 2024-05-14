@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
     Route::delete('/classroom/{id}', 'destroy');
+    Route::get('/get-mentorship', 'getMentorship');
 
     Route::put('/mark-attendance/{id}', 'markAttendance');
     Route::get('/view-attendance/{id}', 'getClassAttendance');

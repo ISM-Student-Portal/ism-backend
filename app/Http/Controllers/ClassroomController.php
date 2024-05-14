@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Gate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Response;
 
 class ClassroomController extends Controller
 {
@@ -38,11 +39,25 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::with([
             'attendance' => function ($query) {
-                $query->whereHas('users', function(Builder $query) {
+                $query->whereHas('users', function (Builder $query) {
                     $query->where('attendance_user.user_id', '=', auth()->user()->id);
                 });
             }
-        ])->orderBy('created_at', 'desc')->get();
+        ])->where('mentorship', '=', false)->orderBy('created_at', 'desc')->get();
+        return response()->json([
+            "message" => 'Success',
+            "classrooms" => $classrooms
+        ]);
+    }
+    public function getMentorship()
+    {
+        $classrooms = Classroom::with([
+            'attendance' => function ($query) {
+                $query->whereHas('users', function (Builder $query) {
+                    $query->where('attendance_user.user_id', '=', auth()->user()->id);
+                });
+            }
+        ])->where('mentorship', '=', true)->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
             "classrooms" => $classrooms
@@ -76,7 +91,9 @@ class ClassroomController extends Controller
             "title" => "required|string",
             "description" => "sometimes|string",
             "link" => "required|string",
-            "expires_on" =>"sometimes|date"
+            "expires_on" => "sometimes|date",
+            "mentorship" => "sometimes|boolean"
+
         ]);
         // $validated['expires_on'] = $expiry;
         $classroom = $this->classroomSevice->create($validated);
@@ -146,6 +163,6 @@ class ClassroomController extends Controller
     public function exportClassAttendance(string $id)
     {
         return (new AttendanceExport($id))->download('attendance.xlsx');
-        
+
     }
 }
