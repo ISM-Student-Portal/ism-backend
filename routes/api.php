@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->put('/update-profile-pix', [UserController::c
 
 Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class, 'batchCreateUser'])->name('batch-create');
 
+Route::middleware('auth:sanctum')->post('/batch-attendance', [ClassroomController::class, 'bulkAttendanceMark'])->name('batch-attendance');
+
 Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
 Route::middleware('auth:sanctum')->get('/attendance-report', [UserController::class, 'attendanceReport'])->name('dashboard');
 

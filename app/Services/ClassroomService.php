@@ -55,6 +55,7 @@ class ClassroomService
         // $classroom->
     }
 
+
     public function getClassAttendance($id)
     {
         $attendance = Attendance::where('classroom_id', $id)->first();

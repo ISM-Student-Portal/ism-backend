@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AttendanceExport;
+use App\Imports\AttendanceImport;
 use App\Models\Classroom;
+use App\Models\User;
 use App\Services\ClassroomService;
 use Carbon\Carbon;
+use Exception;
 use Gate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Response;
 
 class ClassroomController extends Controller
@@ -150,6 +155,53 @@ class ClassroomController extends Controller
             "data" => $attendance
         ], 200);
     }
+    public function bulkAttendanceMark(Request $request)
+    {
+        set_time_limit(0);
+        $classId = $request->input('id');
+
+        $classroom = Classroom::findOrFail($classId);
+        $existingAttendance = $classroom->attendance()->create([]);
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls',
+            ]);
+            // ...
+            $file = $request->file;
+            $array = Excel::toArray(new AttendanceImport, $file);
+            $list = $array[0];
+            foreach ($list as $entry) {
+                if ($entry[0] === "Matric Number") {
+                    continue;
+                }
+                if ($entry[0] === null) {
+                    break;
+                }
+
+                # code...
+                try {
+                    $user = User::where('reg_no', '=', $entry[0])->first();
+                    if (!is_null($user)) {
+                        $user->attendances()->attach($existingAttendance->id);
+
+                    }
+                    //code...
+                    // $user = User::where('reg_no', '=', )
+
+                } catch (Exception $e) {
+                    //throw $th;
+                    $errors = [];
+                    array_push($errors, $e);
+                }
+            }
+            return response()->json([
+                "message" => "Attendance Marked Successfully",
+                "errors" => $errors ?? []
+            ], 200);
+
+        }
+    }
+
 
     public function getClassAttendance(string $id)
     {
