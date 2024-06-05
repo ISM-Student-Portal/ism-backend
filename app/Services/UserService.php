@@ -75,7 +75,7 @@ class UserService
 
     public function attendanceReport()
     {
-        $totalClasses = Attendance::count() - 1;
+        $totalClasses = Attendance::count();
         $students = User::with('profile')->where('is_admin', '=', 0)->get();
         foreach ($students as $student) {
             $count = $student->attendances()->count();
