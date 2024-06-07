@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceReportExport;
 use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
 use App\Models\User;
@@ -375,4 +376,12 @@ class UserController extends Controller
             'stats' => $res
         ], 200);
     }
+
+    public function attendanceReportExport(Request $request)
+    {
+        $res = $this->userService->attendanceReport();
+        $export = new AttendanceReportExport($res);
+        return Excel::download($export, 'attendanceReport.xlsx');
+    }
+
 }

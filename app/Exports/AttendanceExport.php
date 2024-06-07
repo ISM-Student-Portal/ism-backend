@@ -4,13 +4,11 @@ namespace App\Exports;
 
 use App\Models\Attendance;
 use App\Models\Classroom;
-use App\Models\Profile;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithProperties;
 
 class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAutoSize
 {
