@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AssignmentSubmissionImport;
 use App\Models\Assignment;
 use App\Models\Submission;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class SubmissionController extends Controller
 {
@@ -97,5 +102,66 @@ class SubmissionController extends Controller
     public function destroy(Submission $submission)
     {
         //
+    }
+
+    public function bulkSubmission(Request $request)
+    {
+        set_time_limit(0);
+        $examId1 = $request->input('id1');
+        $examId2 = $request->input('id2');
+
+        $exam1 = Assignment::find($examId1);
+        $exam2 = Assignment::find($examId2);
+
+        // dd($exam);
+
+        // $existingAttendance = $exam->submissions()->create([]);
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls',
+            ]);
+            // ...
+            $file = $request->file;
+            $import = new AssignmentSubmissionImport();
+            $import->onlySheets(1, 2);
+            $array = Excel::toArray($import, $file);
+            $sheets = $array;
+            foreach ($sheets as $key => $sheet) {
+                $exam = $key == 1 ? $exam1 : $exam2;
+                foreach ($sheet as $entry) {
+                    if ($entry[0] === "# reg_no") {
+                        continue;
+                    }
+                    if ($entry[0] === null) {
+                        break;
+                    }
+
+                    # code...
+                    try {
+                        $user = User::where('reg_no', '=', $entry[0])->first();
+                        if (!is_null($user)) {
+                            $exam->submissions()->create([
+                                "student_id" => $user->id,
+                                "link" => $entry[1],
+                            ]);
+
+                        }
+                        //code...
+                        // $user = User::where('reg_no', '=', )
+
+                    } catch (Exception $e) {
+                        //throw $th;
+                        $errors = [];
+                        array_push($errors, $e);
+                    }
+                }
+
+            }
+            return response()->json([
+                "message" => "Attendance Marked Successfully",
+                "errors" => $errors ?? []
+            ], 200);
+
+        }
     }
 }
