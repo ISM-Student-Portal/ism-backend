@@ -11,12 +11,12 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class AttendanceReportExport implements FromCollection, WithMapping, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
 
     protected $report;
 
-    public function __construct(Collection  $report)
+    public function __construct(Collection $report)
     {
         $this->report = $report;
     }
@@ -34,8 +34,11 @@ class AttendanceReportExport implements FromCollection, WithMapping, WithHeading
             $item->profile->last_name ?? null,
             $item->email,
             $item->reg_no,
-            $item->attendance_count,           
+            $item->attendance_count,
             $item->attendance_count_percent,
+            $item->total_grades,
+            $item->average_grade,
+            $item->percent_grade
         ];
     }
 
@@ -44,15 +47,18 @@ class AttendanceReportExport implements FromCollection, WithMapping, WithHeading
     {
         return [
             [
-                'Attendance Report For ISM 2024' 
-            ],            
+                'Attendance Report For ISM 2024'
+            ],
             [
-                'First Name',                
+                'First Name',
                 'Last Name',
                 'Email',
                 'Reg No',
                 'Classes Attended',
                 'Percent Class Attended',
+                'Total Grade',
+                'Average Grade',
+                'Percent Grade'
             ]
 
         ];
