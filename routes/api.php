@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->post('/batch-create', [UserController::class,
 
 Route::middleware('auth:sanctum')->post('/batch-attendance', [ClassroomController::class, 'bulkAttendanceMark'])->name('batch-attendance');
 Route::middleware('auth:sanctum')->post('/batch-submission', [SubmissionController::class, 'bulkSubmission'])->name('batch-submission');
+Route::middleware('auth:sanctum')->post('/batch-grading', [SubmissionController::class, 'batchGrading'])->name('batch-grading');
 
 Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
 Route::middleware('auth:sanctum')->get('/attendance-report', [UserController::class, 'attendanceReport'])->name('dashboard');
@@ -47,6 +48,7 @@ Route::post('/resend-mail', [UserController::class, 'updateUserMails'])->name('p
 Route::middleware('auth:sanctum')->post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
 
 Route::middleware('auth:sanctum')->get('/get-admission-letter', [PdfExportController::class, 'admissionLetter'])->name('admission.letter');
+Route::middleware('auth:sanctum')->get('/get-certificate', [PdfExportController::class, 'certificate'])->name('certificate');
 
 
 
@@ -82,6 +84,7 @@ Route::middleware('auth:sanctum')->resource('assignments', AssignmentController:
 Route::middleware('auth:sanctum')->post('download-file', [AssignmentController::class, 'downloadFile']);
 
 Route::middleware('auth:sanctum')->resource('submissions', SubmissionController::class);
+
 
 
 

@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Attendance::class)->as('attendance_user')->withTimestamps();
     }
 
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'student_id', 'id');
+    }
+
 
     /**
      * Get the attributes that should be cast.

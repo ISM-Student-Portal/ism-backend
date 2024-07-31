@@ -164,4 +164,65 @@ class SubmissionController extends Controller
 
         }
     }
+
+    public function batchGrading(Request $request)
+    {
+        set_time_limit(0);
+        $examId1 = $request->input('id');
+
+        $exam1 = Assignment::find($examId1);
+
+        // dd($exam);
+
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls',
+            ]);
+            // ...
+            $file = $request->file;
+            $import = new AssignmentSubmissionImport();
+            $import->onlySheets(0);
+            $array = Excel::toArray($import, $file);
+            $sheets = $array;
+            foreach ($sheets as $key => $sheet) {
+                $exam = $exam1;
+                foreach ($sheet as $entry) {
+                    if ($entry[0] === "Reg No") {
+                        continue;
+                    }
+                    if ($entry[0] === null) {
+                        break;
+                    }
+
+                    # code...
+                    try {
+                        $user = User::where('reg_no', '=', $entry[0])->first();
+                        if (!is_null($user)) {
+                            $submission = Submission::where('student_id', '=', $user->id)->where('assignment_id', '=', $exam->id)->first();
+                            if (!is_null($submission)) {
+                                $submission->grade = $entry[1];
+                                $submission->save();
+                            } 
+
+
+
+                        }
+                        //code...
+                        // $user = User::where('reg_no', '=', )
+
+                    } catch (Exception $e) {
+                        //throw $th;
+                        $errors = [];
+                        array_push($errors, $e);
+                    }
+                }
+
+            }
+            return response()->json([
+                "message" => "Attendance Marked Successfully",
+                "errors" => $errors ?? []
+            ], 200);
+
+        }
+    }
 }

@@ -80,7 +80,13 @@ class UserService
         foreach ($students as $student) {
             $count = $student->attendances()->count();
             $percentAttendance = round($count / $totalClasses * 100, 2);
+            $grades = $student->submissions()->sum('grade');
+            $average = round($grades / 8, 2);
+            $percent = round($grades / 800 * 100, 2);
             $student['attendance_count'] = $count;
+            $student['total_grades'] = $grades;
+            $student['average_grade'] = $average;
+            $student['percent_grade'] = $percent;
             $student['attendance_count_percent'] = $percentAttendance;
         }
         return $students;
