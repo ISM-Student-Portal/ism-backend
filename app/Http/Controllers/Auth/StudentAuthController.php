@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Mail\NewUser;
+use App\Http\Controllers\Controller;
+use App\Mail\NewStudent;
 use App\Mail\PasswordReset;
 use App\Models\Student;
 use App\Models\User;
@@ -10,13 +11,15 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Exception;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail as FacadesMail;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Illuminate\Support\Str;
 use Mail;
-use Password;
 use Validator;
 
-class AuthController extends Controller
+class StudentAuthController extends Controller
 {
     //
 
@@ -41,26 +44,46 @@ class AuthController extends Controller
         ], 401);
     }
 
-    public function resendEmail(Request $request)
+    public function Register(Request $request)
     {
-        $user = Student::find($request->id);
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified'], 400);
+        $validated = FacadesValidator::make($request->all(), [
+            'email' => 'required|email|unique:students',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'gender' => 'required|string',
+            'phone' => 'required|string',
+            'country' => 'required|string',
+            'city' => 'required|string',
+            'education' => 'required|string',
+            'baptized' => 'sometimes|string',
+            'attended_som_before' => 'sometimes|string',
+            'where_attended' => 'sometimes|string',
+            'participation_mode' => 'sometimes|string',
+            'ln_member' => 'sometimes|string',
+            'ministry' => 'sometimes|string',
+            'ministry_role' => 'sometimes|string',
+            'salvation_experience' => 'sometimes|string',
+            'expectations' => 'sometimes|string',
+        ]);
+        if ($validated->fails()) {
+            return response()->json([
+                "status" => "error",
+                "message" => $validated->errors()->first()
+            ], 400);
         }
-        $user->sendEmailVerificationNotification();
-        return response()->json(['message' => 'Email sent'], 200);
-    }
+        $student = Student::create($request->all());
 
-    public function verifyEmail(Request $request)
-    {
-        $user = Student::find($request->id);
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified'], 400);
+        $token = $student->createToken('user');
+
+        event(new Registered($student));
+        if ($student) {
+            return response()->json([
+                "status" => "success",
+                "message" => "Registration Successful",
+                "student" => $student,
+                "token" => $token
+            ], 201);
         }
-        if ($user->markEmailAsVerified()) {
-            return redirect(env('FRONTEND_URL') . '/payment');
-        }
-        return response()->json(['message' => 'Email not verified'], 400);
     }
 
     public function forgotPassword(Request $request)

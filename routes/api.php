@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
-use App\Models\Assignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,6 +17,9 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+Route::get('/email/resend/{id}', [AuthController::class, 'resendEmail'])->name('verification.resend');
+Route::post('/register', [StudentAuthController::class, 'register'])->name('register');
 
 Route::get('/create-super-admin', [UserController::class, 'createSuperAdminUser'])->name('create_admin');
 
@@ -84,9 +88,3 @@ Route::middleware('auth:sanctum')->resource('assignments', AssignmentController:
 Route::middleware('auth:sanctum')->post('download-file', [AssignmentController::class, 'downloadFile']);
 
 Route::middleware('auth:sanctum')->resource('submissions', SubmissionController::class);
-
-
-
-
-
-
