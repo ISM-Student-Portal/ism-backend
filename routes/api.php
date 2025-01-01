@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\PdfExportController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 Route::get('/email/resend/{id}', [AuthController::class, 'resendEmail'])->name('verification.resend');
 Route::post('/register', [StudentAuthController::class, 'register'])->name('register');
 
+Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
+Route::post('student/{id}/pay', [StudentController::class, 'paySubscription'])->name('student.pay');
 Route::get('/create-super-admin', [UserController::class, 'createSuperAdminUser'])->name('create_admin');
 
 Route::middleware('auth:sanctum')->post('/create-user', [UserController::class, 'createUser'])->name('create_user');

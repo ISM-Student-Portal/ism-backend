@@ -55,10 +55,13 @@ class AuthController extends Controller
     {
         $user = Student::find($request->id);
         if ($user->hasVerifiedEmail()) {
+            if(!$user->payment_complete){
+                return redirect(env('FRONTEND_URL') . '/payment/' . $user->id);
+            }
             return response()->json(['message' => 'Email already verified'], 400);
         }
         if ($user->markEmailAsVerified()) {
-            return redirect(env('FRONTEND_URL') . '/payment');
+            return redirect(env('FRONTEND_URL') . '/payment/' . $user->id);
         }
         return response()->json(['message' => 'Email not verified'], 400);
     }

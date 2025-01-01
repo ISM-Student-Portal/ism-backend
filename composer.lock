@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e8406f34db7057e83f6b0de7f656a05",
+    "content-hash": "94f5d52d3bf1324489ade6d44a4a4bac",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2501,6 +2501,61 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.9.0"
             },
             "time": "2024-03-31T07:05:07+00:00"
+        },
+        {
+            "name": "matscode/paystack-php-sdk",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matscode/paystack-php-sdk.git",
+                "reference": "c9b0d2edc461e7f90b26c36b5281d992d360e608"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matscode/paystack-php-sdk/zipball/c9b0d2edc461e7f90b26c36b5281d992d360e608",
+                "reference": "c9b0d2edc461e7f90b26c36b5281d992d360e608",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "1.4.x-dev",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matscode\\Paystack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Akanji",
+                    "email": "matscode@gmail.com",
+                    "homepage": "https://inndex.page/matscode"
+                }
+            ],
+            "description": "Paystack PHP SDK is for communicating with PAYSTACK API",
+            "keywords": [
+                "payment",
+                "paystack",
+                "php",
+                "processor",
+                "sdk",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/matscode/paystack-php-sdk/issues",
+                "source": "https://github.com/matscode/paystack-php-sdk/tree/v2.0.0"
+            },
+            "time": "2022-05-19T15:43:34+00:00"
         },
         {
             "name": "monolog/monolog",
