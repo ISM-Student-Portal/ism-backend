@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Illuminate\Support\Str;
 use Mail;
+use Symfony\Component\Console\Input\Input;
 use Validator;
 
 class StudentAuthController extends Controller
@@ -46,6 +47,7 @@ class StudentAuthController extends Controller
 
     public function Register(Request $request)
     {
+
         $validated = FacadesValidator::make($request->all(), [
             'email' => 'required|email|unique:students',
             'first_name' => 'required|string',
@@ -66,11 +68,20 @@ class StudentAuthController extends Controller
             'expectations' => 'sometimes|string',
         ]);
         if ($validated->fails()) {
+            if ($validated->errors()->first() == "The email has already been taken.") {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Email already exists",
+                    "student" => Student::where('email', $request->email)->first()
+                ], 400);
+            }
             return response()->json([
                 "status" => "error",
                 "message" => $validated->errors()->first()
             ], 400);
         }
+
+
         $student = Student::create($request->all());
 
         $token = $student->createToken('user');

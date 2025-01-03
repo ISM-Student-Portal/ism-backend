@@ -61,22 +61,17 @@
 
                                                                             <div>
                                                                                 <h3>User Details</h3>
-                                                                                <h6>Name</h6>: <p>{{$user->first_name}} {{$user->last_name}}</p>
-                                                                                <h6>email</h6>: <p>{{$user->email}}</p>
-
-
-                                                                            </div>
-                                                                            <br>
+                                                                                <span style="font-weight: bold;">Name</span>: {{$user->first_name}} {{$user->last_name}}<br>
+                                                                                <span style="font-weight: bold;">Email</span>: {{$user->email}}
+                                                                            </div> <br>
 
                                                                             <div>
                                                                                 <h3>Payment Details</h3>
-                                                                                <h6>Payment Date</h6>: <p>{{$payment->created_at}}</p>
-                                                                                <h6>Payment Amount</h6>: <p>₦{{$payment->amount}}</p>
-                                                                                <h6>Payment Reference</h6>: <p>{{$payment->reference}}</p>
-                                                                                <h6>Payment Plan</h6>: <p>{{$user->plan}}</p>
+                                                                                <span style="font-weight: bold;">Payment Date</span>: {{$payment->created_at}} <br>
+                                                                                <span style="font-weight: bold;">Payment Amount</span>: ₦{{$payment->amount}} <br>
+                                                                                <span style="font-weight: bold;">Payment Reference</span>: {{$payment->reference}} <br>
+                                                                                <span style="font-weight: bold;">Payment Plan</span>: {{$user->plan}}
                                                                             </div>
-
-
                                                                             <p>We will send your details to you soon. Stay tuned</p>
 
                                                                         </td>
