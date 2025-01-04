@@ -13,6 +13,7 @@ use Gate;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\ServiceProvider;
 use RateLimiter;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,6 +44,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('create-user', function (User $user) {
             return $user->is_admin;
         });
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         RateLimiter::for('emails', function (object $job) {
             return Limit::perMinute(1);
         });
