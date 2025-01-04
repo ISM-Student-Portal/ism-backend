@@ -9,10 +9,12 @@ use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\ClassroomService;
 use App\Services\UserService;
-use Gate;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Gate as FacadesGate;
+use Illuminate\Support\Facades\RateLimiter as FacadesRateLimiter;
 use Illuminate\Support\ServiceProvider;
-use RateLimiter;
 use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,14 +43,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        Gate::define('create-user', function (User $user) {
+        FacadesGate::define('create-user', function (User $user) {
             return $user->is_admin;
         });
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
-        RateLimiter::for('emails', function (object $job) {
+        FacadesRateLimiter::for('emails', function (object $job) {
             return Limit::perMinute(1);
+        });
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->view('emails.verify-email-custom', ['url' => $url, 'user' => $notifiable]);
         });
     }
 }
