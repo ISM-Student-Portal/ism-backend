@@ -84,11 +84,7 @@
                 <td valign="top" align="center">
                     <table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
                         <tbody>
-                            <tr>
-                                <td style="padding:48px 0 30px 0; text-align: center; font-size: 14px; color: #4C83EE;">
-                                    ISM 2025
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td class="main-content" style="padding: 48px 30px 40px; color: #000000;" bgcolor="#ffffff">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -114,23 +110,22 @@
 
                                             <tr>
                                                 <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    We are ecstatic that you have decided to participate in the Femi Lazarus International School of Ministry (ISM) 2025. We are eager to get going with you because this is an amazing opportunity for learning and growth.
+                                                    We are pleased to have you boarded through your decision to participate in the Femi Lazarus International School of Ministry (ISM) 2025. Kindly anticipate to have an amazing experience because this program avails you the opportunity for genuine learning and growth.
+
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    The training commences <strong>5th of April 2025, 8am WAT</strong>. Further details will be sent on or before <strong>17th of March, 2025</strong>.
+                                                    The academic session will commence on the 5th of April, 2025. <strong>Time: 8:00am (WAT).</strong><br>
+                                                    Subsequent correspondence will be shared with you on or before the <strong>17th of March, 2025.</strong>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    If you have any questions or need further information please don’t hesitate to reach out.
+                                                    If you require further clarifications, do not hesitate to reach out to us via femilazarusschoolofministry@gmail.com.
                                                 </td>
                                             </tr>
-
-
-
 
 
 
@@ -142,11 +137,10 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Best regards, <br><strong>Director <br>
-
-                                                        +234 903 464 6810 <br>
-                                                        International School of Ministry</strong>
+                                                <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    Warm Regards, <br>
+                                                    <strong>International School of Ministry</strong> <br>
+                                                    Femi Lazarus Ministries</strong>
                                                 </td>
                                             </tr>
                                         </tbody>

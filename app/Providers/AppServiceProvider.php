@@ -54,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         });
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
+                ->subject('International School of Ministry - Registration')
                 ->view('emails.verify-email-custom', ['url' => $url, 'user' => $notifiable]);
         });
     }

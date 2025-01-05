@@ -84,59 +84,95 @@
                 <td valign="top" align="center">
                     <table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
                         <tbody>
-                            <tr>
-                                <td style="padding:48px 0 30px 0; text-align: center; font-size: 14px; color: #4C83EE;">
-                                    ISM 2025
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td class="main-content" style="padding: 48px 30px 40px; color: #000000;" bgcolor="#ffffff">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                         <tbody>
 
+
+                                            <tr>
+                                                <td style="padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
+                                                    Dear {{$user->first_name. ' '. $user->last_name}}!
+                                                </td>
+                                            </tr>
+                                            <br>
                                             <tr>
                                                 <td style="color: #000000; letter-spacing: 0.01em; width:100%">
                                                     <img src="https://mailsend-email-assets.mailtrap.io/outu0zg2oiaz3p7q0r6mw1fjwdqo.jpeg" style="width:100%; border-radius: 10px; ">
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td style="padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-                                                    Good day dear {{$user->first_name. ' '. $user->last_name}}!
-                                                </td>
-                                            </tr>
+                                            <br>
+                                            <br>
                                             <tr>
                                                 <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Thank you for showing interest in the International School of Ministry. This training is established out of the instruction to help you discover and effectively deploy God's unique call upon your life.
+                                                    We are pleased to inform you that your application to the International School of Ministry has been successfully processed. This school was established out of the instruction to help you discover and effectively deploy God's unique call upon your life.
+                                                </td>
+                                            </tr>
+                                            <br>
+                                            <tr>
+                                                <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    To complete your registration and secure your place at ISM, please, proceed to complete your payment. Below are the important details to note:
+                                                </td>
+                                            </tr>
+                                            <br>
+                                            <tr>
+                                                <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    <div style="font-weight: bold;">Registration Deadline</div>
+                                                    31st March, 2025
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Kindly note; payment validates registration. Registration closes on the 31st of March 2025, after which classes will commence <strong>4th of April 2025.</strong>
+                                                    <div style="font-weight: bold;">Official Start-Date of Class</div>
+                                                    4th April, 2025
                                                 </td>
                                             </tr>
+                                            <br>
+                                            <tr>
+                                                <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                <div style="font-weight: bold;">Additional Information</div>
+                                                    You are to verify your email and proceed to make payment using this verification link:
+                                                </td>
+                                            </tr>
+
+
+
                                             <tr>
                                                 <td style="padding: 0 0 24px 0;">
-                                                    <a class="button" href="{{$url}}" title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">Verify</a>
+                                                    <a class="button" href="{{$url}}" title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">Verify Email</a>
+                                                </td>
+                                            </tr>
+                                            <br>
+
+                                            <tr>
+                                                <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    Full details of the ISM schedule will be communicated only to those who make payment.<br>
+                                                    You can access more details about ISM here: <a href="https://www.femilazarusministries.com/">https://www.femilazarusministries.com/</a>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Full details of the ISM schedule will be communicated only to those who made payment</strong>
+                                                    Enrolling for the International School of Ministry is one of the best decisions you will make this year as your life will experience a significant shift.
                                                 </td>
                                             </tr>
+                                            <br>
 
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Enrolling for the International School of Ministry is one of the best decisions you will make this year as your life will experience a significant shift. </strong>
+                                                    For more enquiries, kindly contact: +234 903 464 6810 or +234 903 095 9735. Alternatively, send an email to femilazarusschoolofministry@gmail or flame@femilazarus.com
                                                 </td>
                                             </tr>
-
+                                            <br>
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    For more enquiries, kindly contact: +234 903 464 6810 or +234 903 095 9735 or send an email to femilazarusschoolofministry@gmail.com or flame@femilazarus.com </strong>
+                                                    We look forward to welcoming you on board.
+
                                                 </td>
                                             </tr>
+                                            <br>
+
 
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">

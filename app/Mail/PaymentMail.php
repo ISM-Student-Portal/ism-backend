@@ -26,7 +26,7 @@ class PaymentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Successful Payment',
+            subject: 'ISM Enrollment Confirmation',
         );
     }
 
