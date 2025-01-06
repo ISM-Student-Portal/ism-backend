@@ -132,7 +132,7 @@
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
                                                 <div style="font-weight: bold;">Additional Information</div>
-                                                    You are to verify your email and proceed to make payment using this verification link:
+                                                    You are to verify your email and proceed to make payment using this verification link below
                                                 </td>
                                             </tr>
 
@@ -148,7 +148,7 @@
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
                                                     Full details of the ISM schedule will be communicated only to those who make payment.<br>
-                                                    You can access more details about ISM here: <a href="https://www.femilazarusministries.com/">https://www.femilazarusministries.com/</a>
+                                                    You can access more details about ISM <a href="https://www.femilazarusministries.com/">here</a>
                                                 </td>
                                             </tr>
 
