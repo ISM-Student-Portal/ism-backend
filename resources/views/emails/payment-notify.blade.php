@@ -91,7 +91,7 @@
                                         <tbody>
                                             <tr>
                                                 <td style="padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-                                                    Hello, {{$user->first_name}}!
+                                                    Dear {{$user->first_name. ' '. $user->last_name}}!
                                                 </td>
                                             </tr>
 

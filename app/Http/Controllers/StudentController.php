@@ -39,7 +39,6 @@ class StudentController extends Controller
 
         if ($student && $reference) {
             $response = $Paystack->transaction->verify($reference['reference']);
-            // dd($response);
             if ($response->status == true) {
                 $payment = Payments::create([
                     'student_id' => $student->id,
