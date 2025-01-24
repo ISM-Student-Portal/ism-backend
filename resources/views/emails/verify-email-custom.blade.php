@@ -161,7 +161,7 @@
 
                                             <tr>
                                                 <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    For more enquiries, kindly contact: +234 903 464 6810 or +234 903 095 9735. Alternatively, send an email to femilazarusschoolofministry@gmail or flame@femilazarus.com
+                                                    For more enquiries, kindly contact: +234 903 464 6810 or +234 903 095 9735. Alternatively, send an email to femilazarusschoolofministry@gmail.com.
                                                 </td>
                                             </tr>
                                             <br>
