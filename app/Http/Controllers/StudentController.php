@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\PaymentEvent;
 use App\Models\Payments;
+use App\Models\PaystackResponse;
 use App\Models\Student;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Matscode\Paystack\Paystack;
 
@@ -39,6 +41,10 @@ class StudentController extends Controller
 
         if ($student && $reference) {
             $response = $Paystack->transaction->verify($reference['reference']);
+            $res = PaystackResponse::create([
+                'student_id' => $student->id,
+                'response' => Json::encode($response),
+            ]);
             if ($response->status == true) {
                 $payment = Payments::create([
                     'student_id' => $student->id,
