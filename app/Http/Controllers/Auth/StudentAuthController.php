@@ -13,11 +13,9 @@ use DB;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Illuminate\Support\Str;
 use Mail;
-use Symfony\Component\Console\Input\Input;
 use Validator;
 
 class StudentAuthController extends Controller

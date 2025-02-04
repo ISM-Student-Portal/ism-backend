@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\AuthController;
@@ -21,6 +22,14 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
 Route::get('/email/resend/{id}', [AuthController::class, 'resendEmail'])->name('verification.resend');
 Route::post('/register', [StudentAuthController::class, 'register'])->name('register');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('/create-super', [AdminController::class, 'createSuperAdminUser'])->name('admin.create_super');
+    // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
+    Route::get('/students', [StudentController::class, 'getAll'])->name('admin.students');
+
+});
 
 Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
 Route::post('student/{id}/pay', [StudentController::class, 'paySubscription'])->name('student.pay');

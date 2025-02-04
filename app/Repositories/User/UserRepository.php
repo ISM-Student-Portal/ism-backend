@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Models\Admin;
 use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
@@ -14,24 +15,24 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $data)
     {
         // return User::create($data);
-        
+
         return User::create([
-            "email"=> $data["email"],            
-            "password"=> bcrypt($data["password"]),
+            "email" => $data["email"],
+            "password" => bcrypt($data["password"]),
             "is_admin" => $data['is_admin'] ?? 0,
             "reg_no" => $data['reg_no'] ?? null
         ]);
-    } 
+    }
 
 
     public function createSuperAdmin()
     {
-        return User::create([
-            "email"=> 'super_admin@ism.com',            
-            "password"=> bcrypt('password'),
-            "is_admin" => true,
-            "is_superadmin" => true,
-            "profile_done" => true,
+        return Admin::create([
+            "username" => 'super_admin',
+            "email" => 'super_admin@ism.com',
+            "password" => bcrypt('password'),
+            'phone_number' => '08012345678',
+            "super_admin" => true,
         ]);
     }
 
