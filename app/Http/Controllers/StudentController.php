@@ -29,6 +29,15 @@ class StudentController extends Controller
         ], 404);
     }
 
+    public function getAll()
+    {
+        $students = Student::query()->get();
+        return response()->json([
+            "status" => "success",
+            "students" => $students
+        ], 200);
+    }
+
     public function paySubscription(Request $request)
     {
         $student = Student::where('id', $request->id)->first();
