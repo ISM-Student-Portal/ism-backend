@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Alumni;
+use App\Models\Student;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,9 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $alumnis = Alumni::get();
+        foreach ($alumnis as $alumni) {
+            $student = Student::where('email', $alumni->email)->first();
+            if ($student !== null) {
+                $student->is_alumni = true;
+                $student->save();
+            }
+        }
     }
 }
