@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\NewStudent;
 use App\Mail\PasswordReset;
+use App\Models\Alumni;
 use App\Models\Student;
 use App\Models\User;
 use Auth;
@@ -83,6 +84,12 @@ class StudentAuthController extends Controller
         $student = Student::create($request->all());
 
         $token = $student->createToken('user');
+
+        $is_alumni = Alumni::where('email', $student->email)->first();
+        if ($is_alumni !== null) {
+            $student->is_alumni = true;
+            $student->save();
+        }
 
         event(new Registered($student));
         if ($student) {
