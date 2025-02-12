@@ -48,7 +48,7 @@ class StudentAuthController extends Controller
     {
 
         $validated = FacadesValidator::make($request->all(), [
-            'email' => 'required|email|unique:students',
+            'email' => 'required|email:rfc,dns|unique:students',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'gender' => 'required|string',
