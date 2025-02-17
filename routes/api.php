@@ -5,6 +5,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
@@ -23,13 +24,38 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 Route::get('/email/resend/{id}', [AuthController::class, 'resendEmail'])->name('verification.resend');
 Route::post('/register', [StudentAuthController::class, 'register'])->name('register');
 
+//Lecturer Routes
+Route::group(['prefix' => 'lecturer'], function () {
+    Route::post('/login', [LecturerController::class, 'login'])->name('lecturer.login');
+});
+
+
+//Admin Routes
 Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/create-super', [AdminController::class, 'createSuperAdminUser'])->name('admin.create_super');
-    // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
     Route::get('/students', [StudentController::class, 'getAll'])->name('admin.students');
+    // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
 
+    Route::post('add-admin', [AdminController::class, 'addAdmin'])->name('admin.add_admin')->middleware('auth:sanctum');
+    Route::post('add-lecturer', [AdminController::class, 'addLecturer'])->name('admin.add_lecturer')->middleware('auth:sanctum');
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
 Route::post('student/{id}/pay', [StudentController::class, 'paySubscription'])->name('student.pay');
