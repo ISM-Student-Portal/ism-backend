@@ -65,7 +65,6 @@ class StudentAuthController extends Controller
             'ministry_role' => 'required_if:ln_member,yes|string',
             'salvation_experience' => 'required|string',
             'expectations' => 'required|string',
-            'is_alumni' => 'required|boolean',
             'alumni_matric_no' => 'required_if:is_alumni,true|string',
         ]);
         if ($validated->fails()) {
