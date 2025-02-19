@@ -82,7 +82,7 @@ class StudentAuthController extends Controller
         }
 
 
-        $student = Student::create($request->all());
+        $student = Student::create($validated->validated());
 
         $token = $student->createToken('user');
 
