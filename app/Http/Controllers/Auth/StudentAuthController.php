@@ -80,6 +80,15 @@ class StudentAuthController extends Controller
                 "message" => $validated->errors()->first()
             ], 400);
         }
+        $wrong_email = null;
+
+        if ($request->is_alumni == true) {
+            $alumni = Alumni::where('email', $request->email)->first();
+            if ($alumni == null) {
+                $wrong_email = 'Sorry, we do not have your record with us as an alumnus, kindly reach out to this contact  +234 903 095 9735 to enjoy the 50% discount on Payment';
+            }
+
+        }
 
 
         $student = Student::create($validated->validated());
@@ -95,6 +104,7 @@ class StudentAuthController extends Controller
         event(new Registered($student));
         if ($student) {
             return response()->json([
+                "wrong_email" => $wrong_email,
                 "status" => "success",
                 "message" => "Registration Successful",
                 "student" => $student,
