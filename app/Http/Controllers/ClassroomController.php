@@ -85,19 +85,16 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         //
-        if (!Gate::allows('create-user', auth()->user())) {
-            return response()->json([
-                "message" => "You are not an Admin"
-            ], 403);
-        }
+        
         // $expiry = Carbon::now()->addHours(24)->toDateTimeString();
 
         $validated = $request->validate([
+            "course_id" => "required|exists:courses,id",
             "title" => "required|string",
             "description" => "sometimes|string",
             "link" => "required|string",
             "expires_on" => "sometimes|date",
-            "mentorship" => "sometimes|boolean"
+            // "mentorship" => "sometimes|boolean"
 
         ]);
         // $validated['expires_on'] = $expiry;

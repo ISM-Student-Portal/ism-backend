@@ -21,4 +21,14 @@ class Lecturer extends Authenticatable
         'super_admin',
         'username'
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 }

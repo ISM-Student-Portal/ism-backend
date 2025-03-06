@@ -16,18 +16,17 @@ class ClassroomRepository implements ClassroomRepositoryInterface
     public function create(array $data)
     {
         // return User::create($data);
-        
-        if(array_key_exists('expires_on', $data)){
+
+        if (array_key_exists('expires_on', $data)) {
             $dt = Carbon::create($data['expires_on']);
             $dt = $dt->toDateTimeString();
         }
         return Classroom::create([
+            "course_id" => $data['course_id'],
             "title" => $data["title"],
             "description" => $data["description"],
             "link" => $data["link"],
             "expires_on" => $dt ?? null,
-            "mentorship" => $data["mentorship"] ?? null,
-            "created_by" => auth()->user()->id
         ]);
     }
 

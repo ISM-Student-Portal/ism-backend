@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NewAdminEvent;
 use App\Events\NewLecturerEvent;
 use App\Models\Admin;
+use App\Models\Course;
 use App\Models\Lecturer;
 use App\Services\UserService;
 use Auth;
@@ -142,6 +143,54 @@ class AdminController extends Controller
 
 
 
+    }
+
+    public function createCourse(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'lecturer_id' => 'sometimes|exists:lecturers,id'
+        ]);
+        // dd(auth()->user());
+
+        $course = Course::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'lecturer_id' => $validated['lecturer_id'],
+            'admin_id' => auth()->user()->id
+        ]);
+
+        return response()->json([
+            "message" => "successful",
+            "course" => $course
+        ]);
+    }
+    public function getAllLecturers()
+    {
+        
+        $students = Lecturer::query()->get();
+        return response()->json([
+            "status" => "success",
+            "lecturers" => $students
+        ], 200);
+    }
+    public function allCourses()
+    {
+        $students = Course::query()->get();
+        return response()->json([
+            "status" => "success",
+            "courses" => $students
+        ], 200);
+    }
+
+    public function getAllAdmins()
+    {
+        $students = Admin::query()->get();
+        return response()->json([
+            "status" => "success",
+            "admins" => $students
+        ], 200);
     }
 
 

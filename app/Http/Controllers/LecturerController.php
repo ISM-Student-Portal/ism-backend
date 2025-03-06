@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Lecturer;
 use Auth;
 use Illuminate\Http\Request;
@@ -33,5 +34,9 @@ class LecturerController extends Controller
             "message" => "invalid email or password"
         ], 401);
     }
+
+    
+
+  
 
 }

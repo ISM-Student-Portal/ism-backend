@@ -35,10 +35,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/create-super', [AdminController::class, 'createSuperAdminUser'])->name('admin.create_super');
     Route::get('/students', [StudentController::class, 'getAll'])->name('admin.students');
+    Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum');
+    Route::get('/admins', [AdminController::class, 'getAllAdmins'])->name('admin.students')->middleware('auth:sanctum');
     // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
 
     Route::post('add-admin', [AdminController::class, 'addAdmin'])->name('admin.add_admin')->middleware('auth:sanctum');
     Route::post('add-lecturer', [AdminController::class, 'addLecturer'])->name('admin.add_lecturer')->middleware('auth:sanctum');
+    Route::post('add-course', [AdminController::class, 'createCourse'])->name('admin.add_course')->middleware('auth:sanctum');
+
+    Route::group(['prefix' => 'course'], function () {
+        Route::post('/create', [AdminController::class, 'createCourse'])->name('admin.course.create')->middleware('auth:sanctum');
+        Route::get('/all', [AdminController::class, 'allCourses'])->name('admin.course.create');
+    });
 });
 
 
