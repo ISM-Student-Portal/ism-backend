@@ -140,7 +140,7 @@
 
                                             <tr>
                                                 <td style="padding: 0 0 24px 0;">
-                                                    <a class="button" href="{{$url}}" title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">Verify Email</a>
+                                                    <a class="button" href="{{$url}}" title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">Make Payment Now</a>
                                                 </td>
                                             </tr>
                                             <br>
