@@ -78,8 +78,13 @@ class StudentController extends Controller
             ], 200);
         }
 
-        $expected_amount = $plan == 'basic' ? 225000 : 375000;
-        $expected_amount = $student->is_alumni ? $expected_amount / 2 : $expected_amount;
+        if ($student->country === "Nigeria") {
+            $expected_amount = $plan == 'basic' ? 225000 : 375000;
+            $expected_amount = $student->is_alumni ? $expected_amount / 2 : $expected_amount;
+        } else {
+            $expected_amount = $plan == 'basic' ? 150 : 250;
+            $expected_amount = $student->is_alumni ? $expected_amount / 2 : $expected_amount;
+        }
 
         if ($student && $reference) {
             $response = $Paystack->transaction->verify($reference['reference']);
