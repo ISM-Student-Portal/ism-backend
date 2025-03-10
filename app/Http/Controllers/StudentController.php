@@ -46,9 +46,7 @@ class StudentController extends Controller
         $amount = $request->amount;
         $Paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
 
-        $expected_amount = $plan == 'basic' ? 100000 : 200000;
-
-        if ($student && $reference) {
+        if ($student->balance > 0) {
             $response = $Paystack->transaction->verify($reference['reference']);
             $res = PaystackResponse::create([
                 'student_id' => $student->id,
@@ -66,8 +64,57 @@ class StudentController extends Controller
 
                 $student->update([
                     'payment_complete' => true,
-                    'plan' => $plan
+                    'balance' => null
                 ]);
+            } else {
+                return response()->json([
+                    "message" => "Operation was not successful"
+                ], 404);
+            }
+            event(new PaymentEvent($payment));
+            return response()->json([
+                "status" => "success",
+                "message" => "subscription paid successfully"
+            ], 200);
+        }
+
+        if ($student->country === "Nigeria") {
+            $expected_amount = $plan == 'basic' ? 225000 : 375000;
+            $expected_amount = $student->is_alumni ? $expected_amount / 2 : $expected_amount;
+        } else {
+            $expected_amount = $plan == 'basic' ? 150 : 250;
+            $expected_amount = $student->is_alumni ? $expected_amount / 2 : $expected_amount;
+        }
+
+        if ($student && $reference) {
+            $response = $Paystack->transaction->verify($reference['reference']);
+            $res = PaystackResponse::create([
+                'student_id' => $student->id,
+                'response' => Json::encode($response),
+            ]);
+            if ($response->status == true) {
+                $payment = Payments::create([
+                    'student_id' => $student->id,
+                    'amount' => $amount,
+                    'reference' => $response->data->reference,
+                    'status' => $response->data->status,
+                    'payment_method' => $response->data->channel,
+                    'payment_channel' => $response->data->channel,
+                ]);
+
+                if ($amount < $expected_amount) {
+                    $student->update([
+                        'plan' => $plan,
+                        'balance' => $expected_amount - $amount
+                    ]);
+                } else {
+                    $student->update([
+                        'payment_complete' => true,
+                        'plan' => $plan
+                    ]);
+                }
+
+
             } else {
                 return response()->json([
                     "message" => "Operation was not successful"
