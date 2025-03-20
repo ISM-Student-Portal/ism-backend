@@ -13,6 +13,11 @@ class PaymentsController extends Controller
     public function index()
     {
         //
+        $payments = Payments::query()->with(['student'])->get();
+        return response()->json([
+            'payments' => $payments,
+            'status' => 'success'
+        ], 200);
     }
 
     /**

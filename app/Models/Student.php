@@ -22,4 +22,8 @@ class Student extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Payments::class);
     }
+    public function attendances()
+    {
+        return $this->belongsToMany(Attendance::class, 'student_attendance')->as('student_attendance')->withTimestamps();
+    }
 }

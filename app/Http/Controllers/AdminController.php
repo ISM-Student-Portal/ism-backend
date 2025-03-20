@@ -168,7 +168,7 @@ class AdminController extends Controller
     }
     public function getAllLecturers()
     {
-        
+
         $students = Lecturer::query()->get();
         return response()->json([
             "status" => "success",
@@ -177,7 +177,7 @@ class AdminController extends Controller
     }
     public function allCourses()
     {
-        $students = Course::query()->get();
+        $students = Course::query()->with(['lecturer'])->get();
         return response()->json([
             "status" => "success",
             "courses" => $students

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Attendance;
 use App\Models\Classroom;
+use App\Models\Student;
 use App\Models\User;
 use App\Repositories\Classroom\ClassroomRepositoryInterface;
 
@@ -48,7 +49,7 @@ class ClassroomService
             $classroom = Classroom::findOrFail($id);
             $existingAttendance = $classroom->attendance()->create([]);
         }
-        $user = User::find(auth()->user()->id);
+        $user = Student::find(auth()->user()->id);
         $user->attendances()->attach($existingAttendance->id);
 
         return $user->attendances;

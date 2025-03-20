@@ -57,12 +57,9 @@ class AssignmentController extends Controller
     public function store(Request $request)
     {
         //
-        if (!Gate::allows('create-user', auth()->user())) {
-            return response()->json([
-                "message" => "You are not an Admin"
-            ], 403);
-        }
+
         $validated = $request->validate([
+            "course_id" => "required|exists:courses,id",
             "title" => "required|string",
             "description" => "required|string",
             "link" => "sometimes",
@@ -70,13 +67,13 @@ class AssignmentController extends Controller
             "file_url" => "sometimes|max:10240"
         ]);
         $adminId = auth()->user()->id;
-       
+
         $data = [
+            "course_id" => $validated["course_id"],
             "title" => $validated["title"],
             "description" => $validated["description"],
             "link" => $validated["link"] ?? null,
             "file_url" => $validated["file_url"] ?? null,
-            "created_by" => $adminId
 
         ];
         if (array_key_exists('deadline', $validated)) {
@@ -100,7 +97,7 @@ class AssignmentController extends Controller
     {
         $url = $request->input('file_url');
         $urlArr = explode("/", $url);
-        $path = Storage::url($urlArr[count($urlArr) -1]);
+        $path = Storage::url($urlArr[count($urlArr) - 1]);
         // dd($path);
 
         if ($url) {

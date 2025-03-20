@@ -9,9 +9,9 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    public function users()
+    public function students()
     {
-        return $this->belongsToMany(User::class)->as('attendance_user')->withTimestamps();
+        return $this->belongsToMany(Student::class, 'student_attendance')->as('student_attendance')->withTimestamps();
     }
 
     public function classroom()

@@ -7,11 +7,10 @@ use App\Models\Classroom;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\Submission;
-use App\Models\User;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 
-class AdminService
+
+class LecturerService
 {
     public function __construct(
     ) {
@@ -19,17 +18,14 @@ class AdminService
 
     public static function getDashboardStats()
     {
-        $studentCount = Student::count();
-        $classes = Course::count();
+        //TODO create assignment count
+        $assignmentCount = Student::count();
+        $courses = auth()->user()->courses->count();
         $basicSub = Student::where('plan', '=', 'basic')->count();
-        $premiumSub = Student::where('plan', '=', 'premium')->count();
-        $paidStudent = Student::with('payments')->whereHas('payments')->count();
         return [
-            'students' => $studentCount,
-            'classes' => $classes,
-            'basicSub' => $basicSub,
-            'premiumSub' => $premiumSub,
-            'paidStudent' => $paidStudent
+            'assignments' => $assignmentCount,
+            'courses' => $courses,
+            'submissions' => $basicSub,
         ];
     }
 
