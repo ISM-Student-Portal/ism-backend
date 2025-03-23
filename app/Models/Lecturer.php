@@ -20,7 +20,8 @@ class Lecturer extends Authenticatable
         'password',
         'phone_number',
         'super_admin',
-        'username'
+        'username',
+        'is_active'
     ];
 
     protected $hidden = [

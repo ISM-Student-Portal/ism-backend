@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PaymentsExport;
 use App\Models\Payments;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class PaymentsController extends Controller
 {
@@ -66,5 +69,10 @@ class PaymentsController extends Controller
     public function destroy(Payments $payments)
     {
         //
+    }
+    public function exportPayments()
+    {
+        $export = new PaymentsExport();
+        return Excel::download($export, 'attendanceReport.xlsx');
     }
 }

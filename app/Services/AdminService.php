@@ -24,12 +24,14 @@ class AdminService
         $basicSub = Student::where('plan', '=', 'basic')->count();
         $premiumSub = Student::where('plan', '=', 'premium')->count();
         $paidStudent = Student::with('payments')->whereHas('payments')->count();
+        $partPaymentStudent = Student::where('balance', '!=', null)->count();
         return [
             'students' => $studentCount,
             'classes' => $classes,
             'basicSub' => $basicSub,
             'premiumSub' => $premiumSub,
-            'paidStudent' => $paidStudent
+            'paidStudent' => $paidStudent,
+            'partPaymentStudent' => $partPaymentStudent
         ];
     }
 

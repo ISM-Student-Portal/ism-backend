@@ -18,6 +18,11 @@ class Student extends Authenticatable implements MustVerifyEmail
     //
     protected $guarded = [];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     public function payments()
     {
         return $this->hasMany(Payments::class);

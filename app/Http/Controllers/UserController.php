@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\AttendanceReportExport;
 use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
+use App\Models\Student;
 use App\Models\User;
 use App\Services\AdminService;
 use App\Services\UserService;
@@ -182,8 +183,10 @@ class UserController extends Controller
         $validated = $request->validate([
             'profile_pix_url' => 'sometimes'
         ]);
-        $profile = $this->userService->updateProfile($validated);
-        $user = User::with('profile')->find(auth()->user()->id);
+        $user = Student::find(auth()->user()->id);
+        $user->update([
+            'profile_pix_url' => $request->input('profile_pix_url')
+        ]);
 
         return response()->json([
             "status" => 'success',
@@ -326,7 +329,7 @@ class UserController extends Controller
         // dd($password);
         // Mail::to($user)->later(now()->addSeconds(3), new NewUser($user, $password));
         Mail::to($user)->send(new NewUser($user, $password));
-        
+
 
         return response()->json([
             "message" => "mail resent Successfully",

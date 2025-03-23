@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\PaymentEvent;
+use App\Exports\StudentExport;
 use App\Models\Payments;
 use App\Models\PaystackResponse;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Matscode\Paystack\Paystack;
 
 class StudentController extends Controller
@@ -16,7 +18,7 @@ class StudentController extends Controller
 
     public function show(Request $request)
     {
-        $student = Student::where('id', $request->id)->first();
+        $student = Student::with(['payments'])->where('id', $request->id)->first();
 
         if ($student) {
             return response()->json([
@@ -36,6 +38,12 @@ class StudentController extends Controller
             "status" => "success",
             "students" => $students
         ], 200);
+    }
+
+    public function export()
+    {
+        $export = new StudentExport();
+        return Excel::download($export, 'students.xlsx');
     }
 
     public function paySubscription(Request $request)

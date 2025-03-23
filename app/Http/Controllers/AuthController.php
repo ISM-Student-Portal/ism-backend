@@ -31,6 +31,11 @@ class AuthController extends Controller
         $email = $request->input('email');
         if (Student::where('email', $email)->exists()) {
             $student = Student::where('email', $email)->first();
+            if (!$student->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
             $auth = Auth::guard("student");
             if ($auth->attempt(["email" => $student->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $student->username, "password" => $request->input("password")])) {
                 $token = auth()->guard('student')->user()->createToken('student');
@@ -46,6 +51,11 @@ class AuthController extends Controller
         } else if (Admin::where('email', $email)->exists()) {
 
             $admin = Admin::where('email', $email)->first();
+            if (!$admin->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
             $auth = Auth::guard("admin");
             if ($auth->attempt(["email" => $admin->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $admin->username, "password" => $request->input("password")])) {
                 $token = auth()->guard('admin')->user()->createToken('admin');
@@ -61,6 +71,11 @@ class AuthController extends Controller
         } else if (Lecturer::where('email', $email)->exists()) {
 
             $lecturer = Lecturer::where('email', $validated['email'])->first();
+            if (!$lecturer->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
             $auth = Auth::guard("lecturer");
             if ($auth->attempt(["email" => $lecturer->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $lecturer->username, "password" => $request->input("password")])) {
                 $token = auth()->guard('lecturer')->user()->createToken('lecturer');

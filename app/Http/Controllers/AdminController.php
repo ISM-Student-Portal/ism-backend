@@ -7,6 +7,7 @@ use App\Events\NewLecturerEvent;
 use App\Models\Admin;
 use App\Models\Course;
 use App\Models\Lecturer;
+use App\Models\Student;
 use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
@@ -29,6 +30,11 @@ class AdminController extends Controller
         if (!$admin) {
             return response()->json([
                 "message" => "invalid email or password"
+            ], 401);
+        }
+        if (!$admin->is_active) {
+            return response()->json([
+                "message" => "Account is inactive"
             ], 401);
         }
         // dd($admin);
@@ -164,6 +170,97 @@ class AdminController extends Controller
         return response()->json([
             "message" => "successful",
             "course" => $course
+        ]);
+    }
+    public function updateCourse(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'sometimes|string',
+            'description' => 'sometimes|string',
+            'lecturer_id' => 'sometimes|exists:lecturers,id'
+        ]);
+        // dd(auth()->user());
+
+        $course = Course::findOrFail($id);
+        $course->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'lecturer_id' => $validated['lecturer_id'],
+            'admin_id' => auth()->user()->id
+        ]);
+
+        return response()->json([
+            "message" => "successful",
+            "course" => $course
+        ]);
+    }
+    public function deleteCourse($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->delete();
+        return response()->json([
+            "message" => "successful",
+            "course" => $course
+        ]);
+    }
+
+    public function deactivateAdmin($id)
+    {
+        $admin = Admin::findOrFail($id);
+        if ($admin->is_active) {
+
+            $admin->update([
+                'is_active' => false
+            ]);
+
+        } else {
+            $admin->update([
+                'is_active' => true
+            ]);
+        }
+
+        return response()->json([
+            "message" => "successful",
+            "admin" => $admin
+        ]);
+    }
+    public function deactivateLecturer($id)
+    {
+        $lecturer = Lecturer::findOrFail($id);
+        if ($lecturer->is_active) {
+
+            $lecturer->update([
+                'is_active' => false
+            ]);
+
+        } else {
+            $lecturer->update([
+                'is_active' => true
+            ]);
+        }
+        return response()->json([
+            "message" => "successful",
+            "lecturer" => $lecturer
+        ]);
+    }
+
+    public function deactivateStudent($id)
+    {
+        $lecturer = Student::findOrFail($id);
+        if ($lecturer->is_active) {
+
+            $lecturer->update([
+                'is_active' => false
+            ]);
+
+        } else {
+            $lecturer->update([
+                'is_active' => true
+            ]);
+        }
+        return response()->json([
+            "message" => "successful",
+            "lecturer" => $lecturer
         ]);
     }
     public function getAllLecturers()

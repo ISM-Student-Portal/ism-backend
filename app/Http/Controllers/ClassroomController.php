@@ -47,7 +47,7 @@ class ClassroomController extends Controller
                 $query->whereHas('students', function (Builder $query) {
                     $query->where('student_attendance.student_id', '=', auth()->user()->id);
                 });
-            }
+            }, 'course'
         ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
