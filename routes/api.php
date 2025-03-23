@@ -5,6 +5,8 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
@@ -23,13 +25,70 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 Route::get('/email/resend/{id}', [AuthController::class, 'resendEmail'])->name('verification.resend');
 Route::post('/register', [StudentAuthController::class, 'register'])->name('register');
 
+//Lecturer Routes
+Route::group(['prefix' => 'lecturer'], function () {
+    Route::post('/login', [LecturerController::class, 'login'])->name('lecturer.login');
+});
+
+
+//Admin Routes
 Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/create-super', [AdminController::class, 'createSuperAdminUser'])->name('admin.create_super');
-    // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
     Route::get('/students', [StudentController::class, 'getAll'])->name('admin.students');
+    Route::get('student/{id}', [StudentController::class, 'show'])->name('admin.student.show');
+    Route::get('/students/export', [StudentController::class, 'export'])->name('admin.students.export');
+    Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum');
+    Route::get('/admins', [AdminController::class, 'getAllAdmins'])->name('admin.students')->middleware('auth:sanctum');
+    Route::get('/payments', [PaymentsController::class, 'index'])->name('admin.payments')->middleware('auth:sanctum');
+    Route::get('/payments-export', [PaymentsController::class, 'exportPayments'])->name('admin.payments')->middleware('auth:sanctum');
+
+    // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
+
+    Route::post('add-admin', [AdminController::class, 'addAdmin'])->name('admin.add_admin')->middleware('auth:sanctum');
+    Route::post('add-lecturer', [AdminController::class, 'addLecturer'])->name('admin.add_lecturer')->middleware('auth:sanctum');
+    Route::patch('deactivate-admin/{id}', [AdminController::class, 'deactivateAdmin'])->name('admin.deactivate_admin')->middleware('auth:sanctum');
+    Route::patch('deactivate-lecturer/{id}', [AdminController::class, 'deactivateLecturer'])->name('admin.deactivate_lecturer')->middleware('auth:sanctum');
+    Route::patch('deactivate-student/{id}', [AdminController::class, 'deactivateStudent'])->name('admin.deactivate_student')->middleware('auth:sanctum');
+
+    Route::post('add-course', [AdminController::class, 'createCourse'])->name('admin.add_course')->middleware('auth:sanctum');
+    Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
+
+
+    Route::group(['prefix' => 'course'], function () {
+        Route::post('/create', [AdminController::class, 'createCourse'])->name('admin.course.create')->middleware('auth:sanctum');
+        Route::get('/all', [AdminController::class, 'allCourses'])->name('admin.course.index');
+        Route::patch('/update/{id}', [AdminController::class, 'updateCourse'])->name('admin.course.update')->middleware('auth:sanctum');
+        Route::delete('/delete/{id}', [AdminController::class, 'deleteCourse'])->name('admin.course.delete')->middleware('auth:sanctum');
+    });
+});
+
+Route::group(['prefix' => 'lecturer'], function () {
+    Route::middleware('auth:sanctum')->get('/dashboard-stats', [LecturerController::class, 'getDashboardStats'])->name('dashboard');
+    Route::middleware('auth:sanctum')->get('/courses', [LecturerController::class, 'allCourses'])->name('lecturer.courses');
+    Route::middleware('auth:sanctum')->get('/courses/{id}', [LecturerController::class, 'courseById'])->name('lecturer.courses');
+    Route::middleware('auth:sanctum')->get('/all-classrooms', [LecturerController::class, 'allClassrooms'])->name('lecturer.classrooms');
+    Route::middleware('auth:sanctum')->get('/all-assignments', [LecturerController::class, 'allAssignments'])->name('lecturer.assignments');
+
+
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
 Route::post('student/{id}/pay', [StudentController::class, 'paySubscription'])->name('student.pay');
@@ -53,7 +112,6 @@ Route::middleware('auth:sanctum')->post('/batch-attendance', [ClassroomControlle
 Route::middleware('auth:sanctum')->post('/batch-submission', [SubmissionController::class, 'bulkSubmission'])->name('batch-submission');
 Route::middleware('auth:sanctum')->post('/batch-grading', [SubmissionController::class, 'batchGrading'])->name('batch-grading');
 
-Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
 Route::middleware('auth:sanctum')->get('/attendance-report', [UserController::class, 'attendanceReport'])->name('dashboard');
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');

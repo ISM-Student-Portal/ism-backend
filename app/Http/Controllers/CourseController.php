@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PaymentsExport;
-use App\Models\Payments;
+use App\Models\Course;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
-
-class PaymentsController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +13,6 @@ class PaymentsController extends Controller
     public function index()
     {
         //
-        $payments = Payments::query()->with(['student'])->get();
-        return response()->json([
-            'payments' => $payments,
-            'status' => 'success'
-        ], 200);
     }
 
     /**
@@ -42,7 +34,7 @@ class PaymentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Payments $payments)
+    public function show(Course $course)
     {
         //
     }
@@ -50,7 +42,7 @@ class PaymentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Payments $payments)
+    public function edit(Course $course)
     {
         //
     }
@@ -58,7 +50,7 @@ class PaymentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Payments $payments)
+    public function update(Request $request, Course $course)
     {
         //
     }
@@ -66,13 +58,8 @@ class PaymentsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Payments $payments)
+    public function destroy(Course $course)
     {
         //
-    }
-    public function exportPayments()
-    {
-        $export = new PaymentsExport();
-        return Excel::download($export, 'attendanceReport.xlsx');
     }
 }

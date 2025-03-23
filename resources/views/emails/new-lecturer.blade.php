@@ -91,56 +91,52 @@
                                     bgcolor="#ffffff">
                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                         <tbody>
+
+
                                             <tr>
                                                 <td
                                                     style="padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em;">
-                                                    Dear {{$user->first_name . ' ' . $user->last_name}}!
+                                                    Hello!!
                                                 </td>
                                             </tr>
-
+                                            <br>
                                             <tr>
-                                                <td
-                                                    style="padding: 0 0 24px 0; font-size: 14px; line-height: 150%; color: black; letter-spacing: 0.01em;">
-                                                    Welcome On board!
-                                                </td>
-                                            </tr>
-
-
-                                            <tr>
-                                                <td
-                                                    style="padding: 0 0 24px 0; font-size: 14px; line-height: 150%; color: #000000; letter-spacing: 0.01em;">
+                                                <td style="color: #000000; letter-spacing: 0.01em; width:100%">
                                                     <img src="https://mailsend-email-assets.mailtrap.io/outu0zg2oiaz3p7q0r6mw1fjwdqo.jpeg"
-                                                        alt="po" style="width: 100%">
+                                                        style="width:100%; border-radius: 10px; ">
+                                                </td>
+                                            </tr>
+                                            <br>
+                                            <br>
+
+                                            <br>
+                                            <tr>
+                                                <td
+                                                    style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    You have been invited as a Lecturer on <a
+                                                        href="ism.femilazarusministries.com">ISM Portal</a>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td
-                                                    style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    We are pleased to have you boarded through your decision to
-                                                    participate in the Femi Lazarus International School of Ministry
-                                                    (ISM) 2025. Kindly anticipate to have an amazing experience because
-                                                    this program avails you the opportunity for genuine learning and
-                                                    growth.
-
+                                                    style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    Kindly login with these details:
+                                                    <br>
+                                                    Email: {{ $user->email }}<br>
+                                                    Password: {{ $password }}
                                                 </td>
                                             </tr>
 
-                                            <tr>
-                                                <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    The academic session will commence on the 5th of April, 2025. <strong>Time: 8:00am (WAT).</strong><br>
-                                                    Subsequent correspondence will be shared with you on or before the <strong>2nd of April, 2025.</strong>
-                                                </td>
-                                            </tr>
+
                                             <tr>
                                                 <td
-                                                    style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    If you require further clarifications, do not hesitate to reach out
-                                                    to us via femilazarusschoolofministry@gmail.com.
+                                                    style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    Kind Regards, <br>
+                                                    <strong>International School of Ministry</strong> <br>
+                                                    Femi Lazarus Ministries</strong>
                                                 </td>
                                             </tr>
-
-
 
 
                                             <tr>
@@ -150,14 +146,7 @@
                                                         style="display: block; width: 117px; border-bottom: 1px solid #8B949F;"></span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td
-                                                    style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    Warm Regards, <br>
-                                                    <strong>International School of Ministry</strong> <br>
-                                                    Femi Lazarus Ministries</strong>
-                                                </td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </td>
@@ -169,7 +158,7 @@
                                         style="padding: 0 0 20px 0; vertical-align: top; display: inline-block; text-align: center; width:100%;">
                                         <span
                                             style="padding: 0; font-size: 11px; line-height: 15px; font-weight: normal; color: #8B949F;">Femi
-                                            Lazarus School Of Ministry</span>
+                                            Lazarus School Of Ministry<br /></span>
                                     </div>
                                     <!--[if mso | IE]>      </td></tr></table>      <![endif]-->
                                 </td>

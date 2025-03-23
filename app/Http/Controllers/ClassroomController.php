@@ -44,11 +44,11 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::with([
             'attendance' => function ($query) {
-                $query->whereHas('users', function (Builder $query) {
-                    $query->where('attendance_user.user_id', '=', auth()->user()->id);
+                $query->whereHas('students', function (Builder $query) {
+                    $query->where('student_attendance.student_id', '=', auth()->user()->id);
                 });
-            }
-        ])->where('mentorship', '=', false)->orderBy('created_at', 'desc')->get();
+            }, 'course'
+        ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
             "classrooms" => $classrooms
@@ -59,7 +59,7 @@ class ClassroomController extends Controller
         $classrooms = Classroom::with([
             'attendance' => function ($query) {
                 $query->whereHas('users', function (Builder $query) {
-                    $query->where('attendance_user.user_id', '=', auth()->user()->id);
+                    $query->where('student_attendance.student_id', '=', auth()->user()->id);
                 });
             }
         ])->where('mentorship', '=', true)->orderBy('created_at', 'desc')->get();
@@ -85,23 +85,21 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         //
-        if (!Gate::allows('create-user', auth()->user())) {
-            return response()->json([
-                "message" => "You are not an Admin"
-            ], 403);
-        }
+
         // $expiry = Carbon::now()->addHours(24)->toDateTimeString();
 
         $validated = $request->validate([
+            "course_id" => "required|exists:courses,id",
             "title" => "required|string",
             "description" => "sometimes|string",
             "link" => "required|string",
             "expires_on" => "sometimes|date",
-            "mentorship" => "sometimes|boolean"
+            // "mentorship" => "sometimes|boolean"
 
         ]);
         // $validated['expires_on'] = $expiry;
         $classroom = $this->classroomSevice->create($validated);
+        $classroom->attendance()->create([]);
         return response()->json([
             'status' => "Successful",
             'classroom' => $classroom

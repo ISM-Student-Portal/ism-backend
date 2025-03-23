@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Laravel\Sanctum\HasApiTokens;
-
-class Admin extends Authenticatable
+class Lecturer extends Authenticatable
 {
     //
     use HasFactory, Notifiable, HasApiTokens, CanResetPassword;
@@ -23,6 +23,7 @@ class Admin extends Authenticatable
         'username',
         'is_active'
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -32,4 +33,9 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class);
+    }
 }

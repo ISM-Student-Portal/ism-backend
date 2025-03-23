@@ -27,10 +27,10 @@ class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAu
         // dd($user);
         return [
             $user->email,
-            $user->reg_no,
-            $user->profile->first_name ?? null,
-            $user->profile->last_name ?? null,
-            $user->attendance_user->created_at ?? null,
+            $user->matric_no,
+            $user->first_name ?? null,
+            $user->last_name ?? null,
+            $user->student_attendance->created_at ?? null,
         ];
     }
 
@@ -72,6 +72,6 @@ class AttendanceExport implements WithMapping, FromQuery, WithHeadings, ShouldAu
     {
         $attendance = Attendance::where('classroom_id', $this->id)->first();
 
-        return $attendance->users()->with('profile')->distinct();
+        return $attendance->students()->distinct();
     }
 }

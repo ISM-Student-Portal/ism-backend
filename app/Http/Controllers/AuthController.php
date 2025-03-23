@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewUser;
 use App\Mail\PasswordReset;
+use App\Models\Admin;
+use App\Models\Lecturer;
 use App\Models\Student;
 use App\Models\User;
 use Auth;
@@ -26,16 +28,68 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        $validated['is_active'] = 1;
-        if (Auth::attempt($validated)) {
-            $token = auth()->user()->createToken('user');
-            $user = User::where('id', auth()->user()->id)->with(['attendances', 'profile'])->first();
+        $email = $request->input('email');
+        if (Student::where('email', $email)->exists()) {
+            $student = Student::where('email', $email)->first();
+            if (!$student->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
+            $auth = Auth::guard("student");
+            if ($auth->attempt(["email" => $student->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $student->username, "password" => $request->input("password")])) {
+                $token = auth()->guard('student')->user()->createToken('student');
+                return response()->json([
+                    "status" => "success",
+                    'user' => $student,
+                    "token" => $token
+                ], 200);
+            }
             return response()->json([
-                "status" => "success",
-                'user' => $user,
-                "token" => $token
-            ], 201);
+                "message" => "invalid email or password"
+            ], 401);
+        } else if (Admin::where('email', $email)->exists()) {
+
+            $admin = Admin::where('email', $email)->first();
+            if (!$admin->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
+            $auth = Auth::guard("admin");
+            if ($auth->attempt(["email" => $admin->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $admin->username, "password" => $request->input("password")])) {
+                $token = auth()->guard('admin')->user()->createToken('admin');
+                return response()->json([
+                    "status" => "success",
+                    'user' => $admin,
+                    "token" => $token
+                ], 200);
+            }
+            return response()->json([
+                "message" => "invalid email or password"
+            ], 401);
+        } else if (Lecturer::where('email', $email)->exists()) {
+
+            $lecturer = Lecturer::where('email', $validated['email'])->first();
+            if (!$lecturer->is_active) {
+                return response()->json([
+                    "message" => "Account is inactive"
+                ], 401);
+            }
+            $auth = Auth::guard("lecturer");
+            if ($auth->attempt(["email" => $lecturer->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $lecturer->username, "password" => $request->input("password")])) {
+                $token = auth()->guard('lecturer')->user()->createToken('lecturer');
+                return response()->json([
+                    "status" => "success",
+                    'user' => $lecturer,
+                    "token" => $token
+                ], 200);
+            }
+            return response()->json([
+                "message" => "invalid email or password"
+            ], 401);
         }
+
         return response()->json([
             "message" => "invalid email or password"
         ], 401);
@@ -55,9 +109,9 @@ class AuthController extends Controller
     {
         $user = Student::find($request->id);
         if ($user->hasVerifiedEmail()) {
-            
-                return redirect(env('FRONTEND_URL') . '/payment/' . $user->id);
-            
+
+            return redirect(env('FRONTEND_URL') . '/payment/' . $user->id);
+
             // return response()->json(['message' => 'Email already verified'], 400);
         }
         if ($user->markEmailAsVerified()) {
