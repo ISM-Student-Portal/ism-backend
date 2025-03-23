@@ -127,12 +127,9 @@
                                             </tr>
 
                                             <tr>
-                                                <td
-                                                    style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                                                    The academic session will commence on the 5th of April, 2025.
-                                                    <strong>Time: 8:00am (WAT).</strong><br>
-                                                    Subsequent correspondence will be shared with you on or before the
-                                                    <strong>2nd of April, 2025.</strong>
+                                                <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                                                    The academic session will commence on the 5th of April, 2025. <strong>Time: 8:00am (WAT).</strong><br>
+                                                    Subsequent correspondence will be shared with you on or before the <strong>2nd of April, 2025.</strong>
                                                 </td>
                                             </tr>
                                             <tr>

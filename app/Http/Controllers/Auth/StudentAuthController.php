@@ -65,6 +65,7 @@ class StudentAuthController extends Controller
             'ministry_role' => 'required_if:ln_member,yes|string',
             'salvation_experience' => 'required|string',
             'expectations' => 'required|string',
+            'alumni_matric_no' => 'required_if:is_alumni,true|string',
         ]);
         if ($validated->fails()) {
             if ($validated->errors()->first() == "The email has already been taken.") {
@@ -79,9 +80,18 @@ class StudentAuthController extends Controller
                 "message" => $validated->errors()->first()
             ], 400);
         }
+        $wrong_email = null;
+
+        if ($request->is_alumni == true) {
+            $alumni = Alumni::where('email', $request->email)->first();
+            if ($alumni == null) {
+                $wrong_email = 'Sorry, we do not have your record with us as an alumnus, kindly reach out to this contact  +234 903 095 9735 to enjoy the 50% discount on Payment';
+            }
+
+        }
 
 
-        $student = Student::create($request->all());
+        $student = Student::create($validated->validated());
 
         $token = $student->createToken('user');
 
@@ -94,6 +104,7 @@ class StudentAuthController extends Controller
         event(new Registered($student));
         if ($student) {
             return response()->json([
+                "wrong_email" => $wrong_email,
                 "status" => "success",
                 "message" => "Registration Successful",
                 "student" => $student,
