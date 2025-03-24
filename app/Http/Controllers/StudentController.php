@@ -33,12 +33,23 @@ class StudentController extends Controller
 
     public function getAll()
     {
+        $students = Student::query()->whereHas('payments')->get();
+        return response()->json([
+            "status" => "success",
+            "students" => $students
+        ], 200);
+    }
+
+    public function getAllRegistrants()
+    {
         $students = Student::query()->get();
         return response()->json([
             "status" => "success",
             "students" => $students
         ], 200);
     }
+
+
 
     public function export()
     {
