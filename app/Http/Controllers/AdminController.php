@@ -86,7 +86,7 @@ class AdminController extends Controller
                 'username' => $validated['username'],
                 'phone_number' => $validated['phone'],
                 'password' => bcrypt($password),
-                'is_active' => false
+                'is_active' => true
 
             ]);
             event(new NewAdminEvent($admin, $password));
@@ -127,7 +127,7 @@ class AdminController extends Controller
                 'username' => $validated['username'],
                 'phone_number' => $validated['phone'],
                 'password' => bcrypt($password),
-                'is_active' => false
+                'is_active' => true
 
             ]);
             event(new NewLecturerEvent($lecturer, $password));
