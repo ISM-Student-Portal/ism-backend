@@ -43,9 +43,17 @@ class StudentController extends Controller
     public function getAllRegistrants()
     {
         $students = Student::query()->get();
+        $totalPaid = Student::query()->whereHas('payments')->count();
+        $totalUnpaid = Student::query()->whereDoesntHave('payments')->count();
+        $totalPaidFull = Student::query()->where('payment_complete', true)->count();
         return response()->json([
             "status" => "success",
-            "students" => $students
+            "students" => $students,
+            "stats" => [
+                "total_paid" => $totalPaid,
+                "total_unpaid" => $totalUnpaid,
+                "total_paid_full" => $totalPaidFull
+            ]
         ], 200);
     }
 
