@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/create-super', [AdminController::class, 'createSuperAdminUser'])->name('admin.create_super');
     Route::get('/students', [StudentController::class, 'getAll'])->name('admin.students');
+    Route::get('/registered', [StudentController::class, 'getAllRegistrants'])->name('admin.registrants');
     Route::get('student/{id}', [StudentController::class, 'show'])->name('admin.student.show');
     Route::get('/students/export', [StudentController::class, 'export'])->name('admin.students.export');
     Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum');
