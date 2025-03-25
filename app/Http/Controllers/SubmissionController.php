@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\AssignmentSubmissionImport;
 use App\Models\Assignment;
+use App\Models\Student;
 use App\Models\Submission;
 use App\Models\User;
 use Exception;
@@ -196,7 +197,7 @@ class SubmissionController extends Controller
 
                     # code...
                     try {
-                        $user = User::where('reg_no', '=', $entry[0])->first();
+                        $user = Student::where('matric_no', '=', $entry[0])->first();
                         if (!is_null($user)) {
                             $submission = Submission::where('student_id', '=', $user->id)->where('assignment_id', '=', $exam->id)->first();
                             if (!is_null($submission)) {

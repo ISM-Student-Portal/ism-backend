@@ -19,13 +19,17 @@ class LecturerService
     public static function getDashboardStats()
     {
         //TODO create assignment count
-        $assignmentCount = Student::count();
+        $course = Course::where('lecturer_id', '=', auth()->user()->id)->get()->pluck('id');
+        $assignment = Assignment::whereIn('course_id', $course)->get()->pluck('id');
+        $assignmentCount = Assignment::whereIn('course_id', $course)->count();
         $courses = auth()->user()->courses->count();
-        $basicSub = Student::where('plan', '=', 'basic')->count();
+        $submissions = Submission::whereIn('assignment_id', $assignment)->count();
+        $classrooms = Classroom::whereIn('course_id', $course)->count();
         return [
             'assignments' => $assignmentCount,
             'courses' => $courses,
-            'submissions' => $basicSub,
+            'submissions' => $submissions,
+            'classrooms' => $classrooms
         ];
     }
 
