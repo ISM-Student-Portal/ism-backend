@@ -17,7 +17,7 @@ class PasswordReset extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public $link, public User $user)
+    public function __construct(public $link, public $user)
     {
         //
     }

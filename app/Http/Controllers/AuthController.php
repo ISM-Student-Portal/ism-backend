@@ -157,7 +157,22 @@ class AuthController extends Controller
     private function sendResetEmail($email, $token)
     {
         //Retrieve the user from the database
-        $user = User::where('email', '=', $email)->first();
+
+        if (Student::where('email', $email)->exists()) {
+            $student = Student::where('email', $email)->first();
+
+            $user = $student;
+
+        } else if (Admin::where('email', $email)->exists()) {
+
+            $admin = Admin::where('email', $email)->first();
+            $user = $admin;
+        } else if (Lecturer::where('email', $email)->exists()) {
+
+            $lecturer = Lecturer::where('email', $email)->first();
+            $user = $lecturer;
+        }
+
         //Generate, the password reset link. The token generated is embedded in the link
         $link = env('FRONTEND_URL') . '/password/reset?token=' . $token . '&email=' . urlencode($user->email);
         Mail::to($user)->send(new PasswordReset($link, $user));
@@ -178,7 +193,21 @@ class AuthController extends Controller
             ->where('token', $request->input('token'))->first();
         if (!$tokenData)
             return response()->json(['status' => 'error'], 400);
-        $user = User::where('email', $tokenData->email)->first();
+        if (Student::where('email', $tokenData->email)->exists()) {
+            $student = Student::where('email', $tokenData->email)->first();
+
+            $user = $student;
+
+        } else if (Admin::where('email', $tokenData->email)->exists()) {
+
+            $admin = Admin::where('email', $tokenData->email)->first();
+            $user = $admin;
+        } else if (Lecturer::where('email', $tokenData->email)->exists()) {
+
+            $lecturer = Lecturer::where('email', $tokenData->email)->first();
+            $user = $lecturer;
+        }
+
         if (!$user)
             return response()->json(['email' => 'Email not found'], 400);
         //Hash and update the new password
@@ -196,7 +225,22 @@ class AuthController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $user = User::where('id', '=', auth()->user()->id);
+        $id = auth()->user()->id;
+        if (Student::where('id', $id )->exists()) {
+            $student = Student::where('id', $id)->first();
+
+            $user = $student;
+
+        } else if (Admin::where('id', $id)->exists()) {
+
+            $admin = Admin::where('id', $id)->first();
+            $user = $admin;
+        } else if (Lecturer::where('id', $id)->exists()) {
+
+            $lecturer = Lecturer::where('id', $id)->first();
+            $user = $lecturer;
+        }
+        // $user = User::where('id', '=', auth()->user()->id);
         $user->update([
             'password' => bcrypt($request->input('password')),
             'first_login' => false
