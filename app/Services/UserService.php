@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Attendance;
+use App\Models\Student;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -76,7 +77,7 @@ class UserService
     public function attendanceReport()
     {
         $totalClasses = Attendance::count();
-        $students = User::with('profile')->where('is_admin', '=', 0)->get();
+        $students = Student::where('is_admin', '=', 0)->get();
         foreach ($students as $student) {
             $count = $student->attendances()->count();
             $percentAttendance = round($count / $totalClasses * 100, 2);

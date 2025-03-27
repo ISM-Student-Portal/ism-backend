@@ -51,7 +51,6 @@ class PaymentsExport implements WithMapping, FromCollection, WithHeadings, Shoul
                 'Payment Status',
                 'Payment Method',
                 'Payment Date',
-                'Clock In Time',
             ]
 
         ];

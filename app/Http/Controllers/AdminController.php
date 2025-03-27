@@ -76,7 +76,8 @@ class AdminController extends Controller
             $validated = $request->validate([
                 'email' => 'required|email:rfc,dns|unique:admins',
                 'username' => 'required|string|unique:admins',
-                'phone' => 'required|string'
+                'phone' => 'required|string',
+                'super_admin' => 'sometimes|boolean'
             ]);
             $password = Str::password(8, true, true, false, false);
 
@@ -86,6 +87,7 @@ class AdminController extends Controller
                 'username' => $validated['username'],
                 'phone_number' => $validated['phone'],
                 'password' => bcrypt($password),
+                'super_admin' => $validated['super_admin'] ?? false,
                 'is_active' => true
 
             ]);
