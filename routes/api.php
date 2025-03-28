@@ -11,6 +11,7 @@ use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\UserActive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,37 +40,39 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/registered', [StudentController::class, 'getAllRegistrants'])->name('admin.registrants');
     Route::get('student/{id}', [StudentController::class, 'show'])->name('admin.student.show');
     Route::get('/students/export', [StudentController::class, 'export'])->name('admin.students.export');
-    Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum');
-    Route::get('/admins', [AdminController::class, 'getAllAdmins'])->name('admin.students')->middleware('auth:sanctum');
-    Route::get('/payments', [PaymentsController::class, 'index'])->name('admin.payments')->middleware('auth:sanctum');
-    Route::get('/payments-export', [PaymentsController::class, 'exportPayments'])->name('admin.payments')->middleware('auth:sanctum');
+    Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/admins', [AdminController::class, 'getAllAdmins'])->name('admin.students')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/payments', [PaymentsController::class, 'index'])->name('admin.payments')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/payments-export', [PaymentsController::class, 'exportPayments'])->name('admin.payments')->middleware('auth:sanctum', UserActive::class);
 
     // Route::get('/students', [StudentController::class, 'getAll'])->middleware('auth:sanctum')->name('admin.students');
 
-    Route::post('add-admin', [AdminController::class, 'addAdmin'])->name('admin.add_admin')->middleware('auth:sanctum');
-    Route::post('add-lecturer', [AdminController::class, 'addLecturer'])->name('admin.add_lecturer')->middleware('auth:sanctum');
-    Route::patch('deactivate-admin/{id}', [AdminController::class, 'deactivateAdmin'])->name('admin.deactivate_admin')->middleware('auth:sanctum');
-    Route::patch('deactivate-lecturer/{id}', [AdminController::class, 'deactivateLecturer'])->name('admin.deactivate_lecturer')->middleware('auth:sanctum');
-    Route::patch('deactivate-student/{id}', [AdminController::class, 'deactivateStudent'])->name('admin.deactivate_student')->middleware('auth:sanctum');
+    Route::post('add-admin', [AdminController::class, 'addAdmin'])->name('admin.add_admin')->middleware('auth:sanctum', UserActive::class);
+    Route::post('add-lecturer', [AdminController::class, 'addLecturer'])->name('admin.add_lecturer')->middleware('auth:sanctum', UserActive::class);
+    Route::patch('deactivate-admin/{id}', [AdminController::class, 'deactivateAdmin'])->name('admin.deactivate_admin')->middleware('auth:sanctum', UserActive::class);
+    Route::patch('deactivate-lecturer/{id}', [AdminController::class, 'deactivateLecturer'])->name('admin.deactivate_lecturer')->middleware('auth:sanctum', UserActive::class);
+    Route::patch('deactivate-student/{id}', [AdminController::class, 'deactivateStudent'])->name('admin.deactivate_student')->middleware('auth:sanctum', UserActive::class);
 
-    Route::post('add-course', [AdminController::class, 'createCourse'])->name('admin.add_course')->middleware('auth:sanctum');
-    Route::middleware('auth:sanctum')->get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard');
+    Route::post('add-course', [AdminController::class, 'createCourse'])->name('admin.add_course')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/dashboard-stats', [UserController::class, 'getDashboardStats'])->name('dashboard')->middleware('auth:sanctum', UserActive::class);
+    ;
 
 
     Route::group(['prefix' => 'course'], function () {
-        Route::post('/create', [AdminController::class, 'createCourse'])->name('admin.course.create')->middleware('auth:sanctum');
-        Route::get('/all', [AdminController::class, 'allCourses'])->name('admin.course.index');
-        Route::patch('/update/{id}', [AdminController::class, 'updateCourse'])->name('admin.course.update')->middleware('auth:sanctum');
-        Route::delete('/delete/{id}', [AdminController::class, 'deleteCourse'])->name('admin.course.delete')->middleware('auth:sanctum');
+        Route::post('/create', [AdminController::class, 'createCourse'])->name('admin.course.create')->middleware('auth:sanctum', UserActive::class);
+        Route::get('/all', [AdminController::class, 'allCourses'])->name('admin.course.index')->middleware('auth:sanctum');
+        Route::patch('/update/{id}', [AdminController::class, 'updateCourse'])->name('admin.course.update')->middleware('auth:sanctum', UserActive::class);
+        Route::delete('/delete/{id}', [AdminController::class, 'deleteCourse'])->name('admin.course.delete')->middleware('auth:sanctum', UserActive::class);
     });
 });
 
 Route::group(['prefix' => 'lecturer'], function () {
-    Route::middleware('auth:sanctum')->get('/dashboard-stats', [LecturerController::class, 'getDashboardStats'])->name('dashboard');
-    Route::middleware('auth:sanctum')->get('/courses', [LecturerController::class, 'allCourses'])->name('lecturer.courses');
-    Route::middleware('auth:sanctum')->get('/courses/{id}', [LecturerController::class, 'courseById'])->name('lecturer.courses');
-    Route::middleware('auth:sanctum')->get('/all-classrooms', [LecturerController::class, 'allClassrooms'])->name('lecturer.classrooms');
-    Route::middleware('auth:sanctum')->get('/all-assignments', [LecturerController::class, 'allAssignments'])->name('lecturer.assignments');
+    Route::get('/dashboard-stats', [LecturerController::class, 'getDashboardStats'])->name('dashboard')->middleware('auth:sanctum', UserActive::class);
+    ;
+    Route::get('/courses', [LecturerController::class, 'allCourses'])->name('lecturer.courses')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/courses/{id}', [LecturerController::class, 'courseById'])->name('lecturer.courses')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/all-classrooms', [LecturerController::class, 'allClassrooms'])->name('lecturer.classrooms')->middleware('auth:sanctum', UserActive::class);
+    Route::get('/all-assignments', [LecturerController::class, 'allAssignments'])->name('lecturer.assignments')->middleware('auth:sanctum', UserActive::class);
 
 
 
@@ -144,10 +147,11 @@ Route::middleware('auth:sanctum')->get('/attendance-report-export', [UserControl
 
 
 
-Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function () {
+Route::middleware('auth:sanctum' )->controller(ClassroomController::class)->group(function () {
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
     Route::delete('/classroom/{id}', 'destroy');
+    Route::put('/classroom/{id}', 'update');
     Route::get('/get-mentorship', 'getMentorship');
 
     Route::put('/mark-attendance/{id}', 'markAttendance');
