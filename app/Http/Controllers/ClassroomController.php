@@ -47,7 +47,8 @@ class ClassroomController extends Controller
                 $query->whereHas('students', function (Builder $query) {
                     $query->where('student_attendance.student_id', '=', auth()->user()->id);
                 });
-            }, 'course'
+            },
+            'course'
         ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
@@ -125,9 +126,24 @@ class ClassroomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Classroom $classroom)
+    public function update(Request $request, $id)
     {
         //
+        $validated = $request->validate([
+            "course_id" => "sometimes|exists:courses,id",
+            "title" => "sometimes|string",
+            "description" => "sometimes|string",
+            "link" => "sometimes|string",
+            "expires_on" => "sometimes|date",
+            // "mentorship" => "sometimes|boolean"
+
+        ]);
+        $classroom = Classroom::find($id);
+        $classroom->update($validated);
+        return response()->json([
+            'status' => "Successful",
+            'classroom' => $classroom
+        ], 200);
     }
 
     /**

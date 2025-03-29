@@ -90,9 +90,11 @@ class SubmissionController extends Controller
             'grade' => $request->input('grade')
         ]);
 
+
+
         return response()->json([
             "message" => 'Success',
-            "submission" => $res
+            "submission" => $submission->with(['student'])->get()
         ]);
 
     }
@@ -203,7 +205,7 @@ class SubmissionController extends Controller
                             if (!is_null($submission)) {
                                 $submission->grade = $entry[1];
                                 $submission->save();
-                            } 
+                            }
 
 
 

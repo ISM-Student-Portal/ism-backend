@@ -35,7 +35,7 @@ class AssignmentController extends Controller
                 $query->with([
                     'student'
                 ])->where('student_id', '=', auth()->user()->id);
-            }
+            }, 'course'
         ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
