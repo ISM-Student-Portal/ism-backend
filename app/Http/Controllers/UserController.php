@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\AttendanceReportExport;
 use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
+use App\Models\Admin;
+use App\Models\Lecturer;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AdminService;
@@ -167,8 +169,34 @@ class UserController extends Controller
             "alt_phone" => 'sometimes',
             "name_on_cert" => 'sometimes'
         ]);
-        $profile = $this->userService->updateProfile($validated);
-        $user = User::with('profile')->find(auth()->user()->id);
+
+        $id = auth()->user()->id;
+
+
+        if (Student::where('id', $id)->exists()) {
+            $student = Student::where('id', $id)->first();
+
+            $user = $student;
+            $user->update([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'name_on_cert' => $request->input('name_on_cert')
+            ]);
+
+
+        } else if (Admin::where('id', $id)->exists()) {
+
+            $admin = Admin::where('id', $id)->first();
+            $user = $admin;
+            $user->update(['username' => $request->input('username')]);
+
+        } else if (Lecturer::where('id', $id)->exists()) {
+
+            $lecturer = Lecturer::where('id', $id)->first();
+            $user = $lecturer;
+            $user->update(['username' => $request->input('username')]);
+        }
+
 
         return response()->json([
             "status" => 'success',
@@ -183,7 +211,21 @@ class UserController extends Controller
         $validated = $request->validate([
             'profile_pix_url' => 'sometimes'
         ]);
-        $user = Student::find(auth()->user()->id);
+        $id = auth()->user()->id;
+        if (Student::where('id', $id)->exists()) {
+            $student = Student::where('id', $id)->first();
+
+            $user = $student;
+
+        } else if (Admin::where('id', $id)->exists()) {
+
+            $admin = Admin::where('id', $id)->first();
+            $user = $admin;
+        } else if (Lecturer::where('id', $id)->exists()) {
+
+            $lecturer = Lecturer::where('id', $id)->first();
+            $user = $lecturer;
+        }
         $user->update([
             'profile_pix_url' => $request->input('profile_pix_url')
         ]);
