@@ -211,19 +211,19 @@ class UserController extends Controller
         $validated = $request->validate([
             'profile_pix_url' => 'sometimes'
         ]);
-        $id = auth()->user()->id;
-        if (Student::where('id', $id)->exists()) {
-            $student = Student::where('id', $id)->first();
+        $id = auth()->user()->email;
+        if (Student::where('email', $id)->exists()) {
+            $student = Student::where('email', $id)->first();
 
             $user = $student;
 
-        } else if (Admin::where('id', $id)->exists()) {
+        } else if (Admin::where('email', $id)->exists()) {
 
-            $admin = Admin::where('id', $id)->first();
+            $admin = Admin::where('email', $id)->first();
             $user = $admin;
-        } else if (Lecturer::where('id', $id)->exists()) {
+        } else if (Lecturer::where('email', $id)->exists()) {
 
-            $lecturer = Lecturer::where('id', $id)->first();
+            $lecturer = Lecturer::where('email', $id)->first();
             $user = $lecturer;
         }
         $user->update([
