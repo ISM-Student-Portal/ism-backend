@@ -35,7 +35,8 @@ class AssignmentController extends Controller
                 $query->with([
                     'student'
                 ])->where('student_id', '=', auth()->user()->id);
-            }, 'course'
+            },
+            'course'
         ])->orderBy('created_at', 'desc')->get();
         return response()->json([
             "message" => 'Success',
@@ -64,7 +65,8 @@ class AssignmentController extends Controller
             "description" => "required|string",
             "link" => "sometimes",
             "deadline" => "sometimes|date",
-            "file_url" => "sometimes|max:10240"
+            "file_url" => "sometimes|max:10240",
+            "use_for_transcript" => "sometimes"
         ]);
         $adminId = auth()->user()->id;
 
@@ -74,6 +76,7 @@ class AssignmentController extends Controller
             "description" => $validated["description"],
             "link" => $validated["link"] ?? null,
             "file_url" => $validated["file_url"] ?? null,
+            "use_for_transcript" => $validated["use_for_transcript"] ?? null,
 
         ];
         if (array_key_exists('deadline', $validated)) {
