@@ -170,11 +170,11 @@ class UserController extends Controller
             "name_on_cert" => 'sometimes'
         ]);
 
-        $id = auth()->user()->id;
+        $id = auth()->user()->email;
 
 
-        if (Student::where('id', $id)->exists()) {
-            $student = Student::where('id', $id)->first();
+        if (Student::where('email', $id)->exists()) {
+            $student = Student::where('email', $id)->first();
 
             $user = $student;
             $user->update([
@@ -184,15 +184,15 @@ class UserController extends Controller
             ]);
 
 
-        } else if (Admin::where('id', $id)->exists()) {
+        } else if (Admin::where('email', $id)->exists()) {
 
-            $admin = Admin::where('id', $id)->first();
+            $admin = Admin::where('email', $id)->first();
             $user = $admin;
             $user->update(['username' => $request->input('username')]);
 
-        } else if (Lecturer::where('id', $id)->exists()) {
+        } else if (Lecturer::where('email', $id)->exists()) {
 
-            $lecturer = Lecturer::where('id', $id)->first();
+            $lecturer = Lecturer::where('email', $id)->first();
             $user = $lecturer;
             $user->update(['username' => $request->input('username')]);
         }
