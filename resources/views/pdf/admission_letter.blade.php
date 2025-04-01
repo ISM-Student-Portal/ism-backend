@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <div style="display: flex; flex-direction: row; font-size: 12px;">
+    <div style="display: flex; flex-direction: row; font-size: 16px;">
         <div style="clear: both"></div>
         <div style="width: 100%">
 
