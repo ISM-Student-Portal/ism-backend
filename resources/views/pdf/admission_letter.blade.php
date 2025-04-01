@@ -58,9 +58,8 @@
                     <div>You will be tutored by a faculty of seasoned facilitators as led by the Principal, Apostle Femi
                         Lazarus. Be rest assured you are in great hands.</div>
                     <br>
-                    <div><i>Your Registration number is <b>{{ $matric_no }}</b></i></div>
-                    <br>
-                    <div><i>Your Group number is <b>{{ $group_no }}</b></i></div>
+                    <div><i><b>Your Registration number is {{ $matric_no }}</b></i></div>
+                    <div><i><b>Your Group number is {{ $group_no }}</b></i></div>
                     <br>
 
                     {{-- <div>Your Group number is <b>{{ $group_no }}</b></div> --}}
@@ -92,7 +91,6 @@
                     <br>
                     <div>We welcome you once again to this year’s edition of International School of Ministry and we
                         wish you a life transforming experience!</div>
-                    <br>
                     <div>For further enquires and questions: +2349030959735, +2349034646810</div>
                     <br>
                     <div>Regards.</div>
