@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <div style="display: flex; flex-direction: row;">
+    <div style="display: flex; flex-direction: row; font-size: 10px;">
         <div style="clear: both"></div>
         <div style="width: 100%">
 
@@ -60,7 +60,7 @@
                     <br>
                     <div><i>Your Registration number is <b>{{ $matric_no }}</b></i></div>
                     <br>
-                    <div><i>Your Registration number is <b>{{ $group_no }}</b></i></div>
+                    <div><i>Your Group number is <b>{{ $group_no }}</b></i></div>
                     <br>
 
                     {{-- <div>Your Group number is <b>{{ $group_no }}</b></div> --}}
