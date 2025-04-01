@@ -31,6 +31,9 @@ Route::group(['prefix' => 'lecturer'], function () {
     Route::post('/login', [LecturerController::class, 'login'])->name('lecturer.login');
 });
 
+Route::get('generate-reg', [StudentController::class, 'generateReg']);
+Route::get('generate-group', [StudentController::class, 'generateGroup']);
+
 
 //Admin Routes
 Route::group(['prefix' => 'admin'], function () {
@@ -147,7 +150,7 @@ Route::middleware('auth:sanctum')->get('/attendance-report-export', [UserControl
 
 
 
-Route::middleware('auth:sanctum' )->controller(ClassroomController::class)->group(function () {
+Route::middleware('auth:sanctum')->controller(ClassroomController::class)->group(function () {
     Route::post('/classroom', 'store');
     Route::get('/classroom', 'index');
     Route::delete('/classroom/{id}', 'destroy');

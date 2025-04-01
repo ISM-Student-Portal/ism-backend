@@ -40,7 +40,7 @@
                 <div>
                     <div style="margin-top: 30px;">Dear {{ $first_name}} {{ $last_name}},</div>
                     <br>
-                    <h3 style="text-align: center">Letter Of Admission</h3>
+                    <h3 style="text-align: center; text-transform: uppercase;">Letter Of Admission</h3>
                     <div>
                         We are so excited to welcome you to International School of Ministry 2025!
                     </div>

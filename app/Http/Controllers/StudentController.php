@@ -157,4 +157,86 @@ class StudentController extends Controller
             "message" => "Operation was not successful"
         ], 404);
     }
+
+    public function generateReg()
+    {
+        $err = [];
+        try {
+            //code...
+            $students = Student::query()->where('payment_complete', '=', true)->where('matric_no', null)->orWhere('balance', '!=', null)->get();
+
+            $natrics = Student::query()->where('matric_no', '!=', null)->get()->pluck('matric_no')->toArray();
+            // dd($natrics);
+            if (count($natrics) > 0) {
+                $latest = max($natrics);
+
+                $item = explode('/', $latest);
+                $start = $item[2] + 1;
+            } else {
+                $start = 1;
+            }
+
+
+            foreach ($students as $key => $student) {
+                $student->matric_no = $this->reg_number($start + $key);
+                $student->save();
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            array_push($err, $th->getMessage());
+
+        }
+        return response()->json([
+            'students' => $students,
+            "err" => $err
+        ], 200);
+
+    }
+
+    public function generateGroup()
+    {
+        $err = [];
+        try {
+            //code...
+            $online = Student::query()->where('payment_complete', '=', true)->where('participation_mode', 'online')->where('group_no', null)->orWhere('balance', '!=', null)->get();
+            $onsite = Student::query()->where('payment_complete', '=', true)->where('participation_mode', 'onsite')->where('group_no', null)->orWhere('balance', '!=', null)->get();
+
+            // $online = $students->where('participation_mode', 'online')->get();
+            // $onsite = $students->where('participation_mode', 'onsite')->get();
+
+            // dd($onsite);
+
+
+            foreach ($online as $key => $student) {
+                $student->group_no = rand(1, 6);
+                $student->save();
+
+            }
+
+            foreach ($onsite as $key => $student) {
+                $student->group_no = rand(1, 6);
+                $student->save();
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            array_push($err, $th->getMessage());
+
+        }
+        return response()->json([
+            'online' => $online,
+            'onsite' => $onsite,
+            "err" => $err
+        ], 200);
+    }
+
+    public function reg_number($id)
+    {
+        $regNum = '';
+        $uniqueId = str_pad($id, 4, '0', STR_PAD_LEFT);
+        $date = 2025;
+        $regNum = "ISM" . "/" . $date . "/" . $uniqueId;
+        return $regNum;
+    }
 }
