@@ -124,7 +124,7 @@ Route::middleware('auth:sanctum')->get('/attendance-report', [UserController::cl
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
 Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
 
-Route::post('/resend-mail', [UserController::class, 'updateUserMails'])->name('password.change');
+Route::get('/send-student-mail', [UserController::class, 'updateUserMails'])->name('password.change');
 
 Route::middleware('auth:sanctum')->post('/password-update', [AuthController::class, 'updatePassword'])->name('password.reset');
 

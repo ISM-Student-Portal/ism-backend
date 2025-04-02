@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\AttendanceReportExport;
 use App\Imports\UserEmailImport;
 use App\Mail\NewUser;
+use App\Mail\StudentOnboarding;
 use App\Models\Admin;
 use App\Models\Lecturer;
 use App\Models\Student;
@@ -362,19 +363,34 @@ class UserController extends Controller
 
     public function updateUserMails(Request $request)
     {
-        $user = User::where("id", '=', $request->input('id'))->first();
-        $password = Str::password(8, true, true, false, false);
-        $user->update([
-            'password' => bcrypt($password)
-        ]);
-        // $user['gen_pass'] = $password;
-        // dd($password);
-        // Mail::to($user)->later(now()->addSeconds(3), new NewUser($user, $password));
-        Mail::to($user)->send(new NewUser($user, $password));
+        $students = Student::query()->where('matric_no', '!=', null)->get();
+        // dd($students);
+        $done = [];
+
+        foreach ($students as $student) {
+            try {
+                $password = Str::password(8, true, true, false, false);
+                $student->update([
+                    'password' => bcrypt($password)
+                ]);
+                // dd('got here');
+                Mail::to($student)->later(now()->addSeconds(5), new StudentOnboarding($student, $password));
+
+                array_push($done, $student);
+                //code...
+            } catch (Exception $th) {
+                //throw $th;
+                $errors = [];
+                array_push($errors, $th);
+            }
+
+        }
 
 
         return response()->json([
-            "message" => "mail resent Successfully",
+            "message" => "Students updated Successfully",
+            "students" => $done,
+            "errors" => $errors ?? []
         ], 200);
     }
 
