@@ -363,31 +363,34 @@ class UserController extends Controller
 
     public function updateUserMails(Request $request)
     {
+        $start = $request['start'];
+        $stop = $request['stop'];
+
+        $students = Student::query()->where('matric_no', '!=', null)->get();
+        // dd(count($students));
         $done = [];
 
-        $students = Student::query()->where('matric_no', '!=', null)->chunk(50, function ($stu) {
-            foreach ($stu as $student) {
-                try {
-                    $password = Str::password(8, true, true, false, false);
-                    $student->update([
-                        'password' => bcrypt($password)
-                    ]);
-                    // dd('got here');
-                    Mail::to($student)->later(now()->addSeconds(5), new StudentOnboarding($student, $password));
-
-                    // array_push($done, $student);
-                    //code...
-                } catch (Exception $th) {
-                    //throw $th;
-                    $errors = [];
-                    array_push($errors, $th);
-                }
-
+        for ($i = $start; $i < $stop; $i++) {
+            if ($i > count($students) - 1) {
+                break;
             }
-        });
-        // dd($students);
+            try {
+                $student = $students[$i];
+                $password = Str::password(8, true, true, false, false);
+                $student->password = bcrypt($password);
+                $student->save();
+                // dd('got here');
+                Mail::to($student)->later(now()->addSeconds(5), new StudentOnboarding($student, $password));
 
+                array_push($done, $student);
+                //code...
+            } catch (Exception $th) {
+                //throw $th;
+                $errors = [];
+                array_push($errors, $th);
+            }
 
+        }
 
 
         return response()->json([
