@@ -114,7 +114,7 @@
                                                 <td
                                                     style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
                                                     You have been invited as a Lecturer on <a
-                                                        href="ism.femilazarusministries.com">ISM Portal</a>
+                                                        href="https://www.ism.femilazarusministries.com">ISM Portal</a>
                                                 </td>
                                             </tr>
 
