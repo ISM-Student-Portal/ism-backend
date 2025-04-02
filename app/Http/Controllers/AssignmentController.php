@@ -133,6 +133,23 @@ class AssignmentController extends Controller
     public function update(Request $request, Assignment $assignment)
     {
         //
+
+        $validated = $request->validate([
+            "course_id" => "required|exists:courses,id",
+            "title" => "sometimes|string",
+            "description" => "sometimes|string",
+            "link" => "sometimes",
+            "deadline" => "sometimes|date",
+            "file_url" => "sometimes|max:10240",
+            "use_for_transcript" => "sometimes"
+        ]);
+
+        $assignment->update($validated);
+
+        return response()->json([
+            'assignment' => $assignment
+        ], 200);
+
     }
 
     /**
