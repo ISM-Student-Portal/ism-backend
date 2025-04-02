@@ -37,7 +37,7 @@ class AuthController extends Controller
                 ], 401);
             }
             $auth = Auth::guard("student");
-            if ($auth->attempt(["email" => $student->email, "password" => $request->input("password")]) || $auth->attempt(["username" => $student->username, "password" => $request->input("password")])) {
+            if ($auth->attempt(["email" => $student->email, "password" => $request->input("password")])) {
                 $token = auth()->guard('student')->user()->createToken('student');
                 return response()->json([
                     "status" => "success",
@@ -226,7 +226,7 @@ class AuthController extends Controller
     public function updatePassword(Request $request)
     {
         $id = auth()->user()->email;
-        if (Student::where('email', $id )->exists()) {
+        if (Student::where('email', $id)->exists()) {
             $student = Student::where('email', $id)->first();
 
             $user = $student;
