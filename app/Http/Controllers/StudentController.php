@@ -33,7 +33,7 @@ class StudentController extends Controller
 
     public function getAll()
     {
-        $students = Student::query()->whereHas('payments')->get();
+        $students = Student::query()->where('payment_complete', '=', true)->orWhere('balance', '!=', null)->get();
         return response()->json([
             "status" => "success",
             "students" => $students

@@ -366,7 +366,7 @@ class UserController extends Controller
         $start = $request['start'];
         $stop = $request['stop'];
 
-        $students = Student::query()->where('matric_no', '!=', null)->get();
+        $students = Student::query()->where('matric_no', '!=', null)->where('password', 'null')->get();
         // dd(count($students));
         $done = [];
 

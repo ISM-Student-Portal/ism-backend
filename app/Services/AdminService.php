@@ -23,7 +23,7 @@ class AdminService
         $classes = Course::count();
         $basicSub = Student::where('plan', '=', 'basic')->count();
         $premiumSub = Student::where('plan', '=', 'premium')->count();
-        $paidStudent = Student::with('payments')->whereHas('payments')->count();
+        $paidStudent = Student::where('payment_complete', 1)->orWhere('balance', '!=', null)->count();
         $partPaymentStudent = Student::where('balance', '!=', null)->count();
         return [
             'students' => $studentCount,
