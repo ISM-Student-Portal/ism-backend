@@ -199,8 +199,8 @@ class StudentController extends Controller
         $err = [];
         try {
             //code...
-            $online = Student::query()->where('payment_complete', '=', true)->where('participation_mode', 'online')->where('group_no', null)->orWhere('balance', '!=', null)->get();
-            $onsite = Student::query()->where('payment_complete', '=', true)->where('participation_mode', 'onsite')->where('group_no', null)->orWhere('balance', '!=', null)->get();
+            $online = Student::query()->where('payment_complete', '=', true)->orWhere('balance', '!=', null)->where('participation_mode', 'online')->where('group_no', null)->get();
+            $onsite = Student::query()->where('payment_complete', '=', true)->orWhere('balance', '!=', null)->where('participation_mode', 'onsite')->where('group_no', null)->get();
 
             // $online = $students->where('participation_mode', 'online')->get();
             // $onsite = $students->where('participation_mode', 'onsite')->get();
