@@ -95,7 +95,7 @@ class ClassroomController extends Controller
             "description" => "sometimes|string",
             "link" => "required|string",
             "expires_on" => "sometimes|date",
-            // "mentorship" => "sometimes|boolean"
+            "resource" => "sometimes|string"
 
         ]);
         // $validated['expires_on'] = $expiry;
