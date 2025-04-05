@@ -68,7 +68,7 @@
                         field
                         work assignments.</div>
                     <br>
-                    <div>ISM 2024 will run as both online and onsite.</div>
+                    <div>ISM 2025 will run as both online and onsite.</div>
                     <br>
                     <div>On-site classes:
                         <br>
@@ -87,14 +87,13 @@
                     <br>
                     <div>The session will run from April 5th - June 13th 2025. Lectures commences on Saturday, 5th April
                         2025 with an introductory/Orientation class. The course schedule and curriculum for the entire
-                        two months of the school will be sent to you.</div>
+                        eleven (11) weeks of the school has been made available on your portal</div>
                     <br>
                     <div>We welcome you once again to this year’s edition of International School of Ministry and we
                         wish you a life transforming experience!</div>
                     <div>For further enquires and questions: +2349030959735, +2349034646810</div>
                     <br>
                     <div>Regards.</div>
-                    <br>
                 </div>
 
 

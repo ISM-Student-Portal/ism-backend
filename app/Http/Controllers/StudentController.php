@@ -161,26 +161,20 @@ class StudentController extends Controller
     public function generateReg()
     {
         $err = [];
+        $list = [];
         try {
             //code...
-            $students = Student::query()->where('payment_complete', '=', true)->where('matric_no', null)->orWhere('balance', '!=', null)->get();
+            $students = Student::query()->where('matric_no', '!=', null)->get();
 
-            $natrics = Student::query()->where('matric_no', '!=', null)->get()->pluck('matric_no')->toArray();
             // dd($natrics);
-            if (count($natrics) > 0) {
-                $latest = max($natrics);
 
-                $item = explode('/', $latest);
-                $start = $item[2] + 1;
-            } else {
-                $start = 1;
-            }
 
 
             foreach ($students as $key => $student) {
-                $student->matric_no = $this->reg_number($start + $key);
+                // dd($key);
+                $student->matric_no = $this->reg_number($key + 1);
                 $student->save();
-
+                array_push($list, $student->matric_no);
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -189,7 +183,8 @@ class StudentController extends Controller
         }
         return response()->json([
             'students' => $students,
-            "err" => $err
+            "err" => $err,
+            "list" => $list
         ], 200);
 
     }
@@ -237,6 +232,7 @@ class StudentController extends Controller
         $uniqueId = str_pad($id, 4, '0', STR_PAD_LEFT);
         $date = 2025;
         $regNum = "ISM" . "/" . $date . "/" . $uniqueId;
+        // dd($regNum);
         return $regNum;
     }
 }
