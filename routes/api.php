@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/registered', [StudentController::class, 'getAllRegistrants'])->name('admin.registrants');
     Route::get('student/{id}', [StudentController::class, 'show'])->name('admin.student.show');
     Route::get('/students/export', [StudentController::class, 'export'])->name('admin.students.export');
+    Route::get('/registered/export', [StudentController::class, 'exportRegistered'])->name('admin.registered.export');
     Route::get('/lecturers', [AdminController::class, 'getAllLecturers'])->name('admin.students')->middleware('auth:sanctum', UserActive::class);
     Route::get('/admins', [AdminController::class, 'getAllAdmins'])->name('admin.students')->middleware('auth:sanctum', UserActive::class);
     Route::get('/payments', [PaymentsController::class, 'index'])->name('admin.payments')->middleware('auth:sanctum', UserActive::class);

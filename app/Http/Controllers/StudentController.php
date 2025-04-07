@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PaymentEvent;
+use App\Exports\RegisteredExport;
 use App\Exports\StudentExport;
 use App\Models\Payments;
 use App\Models\PaystackResponse;
@@ -63,6 +64,12 @@ class StudentController extends Controller
     {
         $export = new StudentExport();
         return Excel::download($export, 'students.xlsx');
+    }
+
+    public function exportRegistered()
+    {
+        $export = new RegisteredExport();
+        return Excel::download($export, 'registered.xlsx');
     }
 
     public function paySubscription(Request $request)

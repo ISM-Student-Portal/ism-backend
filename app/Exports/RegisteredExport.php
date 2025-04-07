@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class StudentExport implements WithMapping, FromCollection, WithHeadings, ShouldAutoSize
+class RegisteredExport implements WithMapping, FromCollection, WithHeadings, ShouldAutoSize
 {
     use Exportable;
     /**
@@ -79,7 +79,7 @@ class StudentExport implements WithMapping, FromCollection, WithHeadings, Should
 
     function collection()
     {
-        $payments = Student::with(['payments'])->where('payment_complete', '=', true)->orWhereNotNull('balance')->get();
+        $payments = Student::with(['payments'])->get();
 
         return $payments;
     }
