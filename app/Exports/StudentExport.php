@@ -27,6 +27,7 @@ class StudentExport implements WithMapping, FromCollection, WithHeadings, Should
         return [
             $student->email ?? null,
             $student->matric_no ?? null,
+            $student->group_no ?? null,
             $student->first_name ?? null,
             $student->last_name ?? null,
             $student->phone ?? null,
@@ -50,7 +51,8 @@ class StudentExport implements WithMapping, FromCollection, WithHeadings, Should
 
             [
                 'Student Email',
-                'Matric No',
+                'Reg No',
+                'Group No',
                 'First Name',
                 'Last Name',
                 'Phone',
