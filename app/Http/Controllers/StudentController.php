@@ -100,6 +100,11 @@ class StudentController extends Controller
                     'payment_complete' => true,
                     'balance' => null
                 ]);
+
+                $student->update([
+                    'is_active' => true
+                ]);
+
             } else {
                 return response()->json([
                     "message" => "Operation was not successful"
@@ -147,6 +152,9 @@ class StudentController extends Controller
                         'plan' => $plan
                     ]);
                 }
+                $student->update([
+                    'is_active' => true
+                ]);
 
 
             } else {
