@@ -92,6 +92,8 @@ class StudentAuthController extends Controller
 
 
         $student = Student::create($validated->validated());
+        $student->is_active = false;
+        $student->save();
 
         $token = $student->createToken('user');
 
