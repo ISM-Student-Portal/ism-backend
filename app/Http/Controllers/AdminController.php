@@ -119,7 +119,6 @@ class AdminController extends Controller
             $validated = $request->validate([
                 'email' => 'required|email:rfc,dns|unique:lecturers',
                 'username' => 'required|string|unique:lecturers',
-                'phone' => 'required|string'
             ]);
             $password = Str::password(8, true, true, false, false);
 
@@ -127,7 +126,6 @@ class AdminController extends Controller
             $lecturer = Lecturer::create([
                 'email' => $validated['email'],
                 'username' => $validated['username'],
-                'phone_number' => $validated['phone'],
                 'password' => bcrypt($password),
                 'is_active' => true
 
