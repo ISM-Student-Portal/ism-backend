@@ -149,12 +149,11 @@ class StudentController extends Controller
                 } else {
                     $student->update([
                         'payment_complete' => true,
+                        'is_active' => true,
                         'plan' => $plan
                     ]);
                 }
-                $student->update([
-                    'is_active' => true
-                ]);
+
 
 
             } else {
