@@ -49,6 +49,7 @@ class ClassroomService
             $classroom = Classroom::findOrFail($id);
             $existingAttendance = $classroom->attendance()->create([]);
         }
+        // dd(auth()->user());
         $user = Student::find(auth()->user()->id);
         $user->attendances()->attach($existingAttendance->id);
 

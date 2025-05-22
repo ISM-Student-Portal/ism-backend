@@ -11,7 +11,6 @@ use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\UserActive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -135,7 +134,7 @@ Route::middleware('auth:sanctum')->get('/get-certificate', [PdfExportController:
 
 
 
-Route::get('/student-dashboard-stats', [UserController::class, 'getStudentDashboardStats'])->name('dashboard')->middleware('auth:sanctum', 'active');
+Route::get('/student-dashboard-stats', [UserController::class, 'getStudentDashboardStats'])->name('dashboard')->middleware(['auth:sanctum', 'active']);
 
 Route::middleware('auth:sanctum')->put('/set-admin-status/{id}', [UserController::class, 'setAdminStatus']);
 Route::middleware('auth:sanctum')->put('/set-active-status/{id}', [UserController::class, 'setActiveStatus']);
@@ -153,17 +152,20 @@ Route::middleware('auth:sanctum')->get('/attendance-report-export', [UserControl
 
 Route::controller(ClassroomController::class)->group(function () {
     Route::post('/classroom', 'store');
-    Route::get('/classroom', 'index');
+    Route::get('/classroom', 'index')->middleware(['auth:sanctum', 'active']);
     Route::delete('/classroom/{id}', 'destroy');
     Route::put('/classroom/{id}', 'update');
     Route::get('/get-mentorship', 'getMentorship');
 
-    Route::put('/mark-attendance/{id}', 'markAttendance');
+    Route::put('/mark-attendance/{id}', 'markAttendance')->middleware(['auth:sanctum', 'active']);
     Route::get('/view-attendance/{id}', 'getClassAttendance');
     Route::get('/attendance-export/{id}', 'exportClassAttendance');
-})->middleware(['auth:sanctum', 'active']);
+});
 
-Route::resource('assignments', AssignmentController::class)->middleware(['auth:sanctum', 'active']);;
-Route::post('download-file', [AssignmentController::class, 'downloadFile'])->middleware(['auth:sanctum', 'active']);;
+Route::resource('assignments', AssignmentController::class)->middleware(['auth:sanctum', 'active']);
+;
+Route::post('download-file', [AssignmentController::class, 'downloadFile'])->middleware(['auth:sanctum', 'active']);
+;
 
-Route::resource('submissions', SubmissionController::class)->middleware(['auth:sanctum', 'active']);;
+Route::resource('submissions', SubmissionController::class)->middleware(['auth:sanctum', 'active']);
+;
