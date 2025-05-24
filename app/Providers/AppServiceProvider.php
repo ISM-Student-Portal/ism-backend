@@ -49,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
+        if (config('app.env') === 'testing') {
+            $this->app->useDatabasePath('database/testing');
+        }
         FacadesRateLimiter::for('emails', function (object $job) {
             return Limit::perMinute(1);
         });

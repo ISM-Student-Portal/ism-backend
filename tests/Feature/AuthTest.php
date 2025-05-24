@@ -3,10 +3,14 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Student;
+use Database\Factories\StudentFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      */
@@ -25,6 +29,19 @@ class AuthTest extends TestCase
             ],
         ]);
     }
+    public function test_student_login_successful()
+    {
+        $student = Student::factory()->create();
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->post('/api/login', [
+                    'email' => $student->email,
+                    'password' => 'password',
+                ]);
+        $response->assertStatus(200);
+        dump($response);
+
+    }
 
     public function test_login_wrong_email_password()
     {
@@ -34,6 +51,6 @@ class AuthTest extends TestCase
                     'email' => 'omodamolaoladeji@gmail.com',
                     'password' => 'omodamolaoladeji@gmail.com',
                 ]);
-        $response->assertStatus(422);
+        $response->assertStatus(401);
     }
 }

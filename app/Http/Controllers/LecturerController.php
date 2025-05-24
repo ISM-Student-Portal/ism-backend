@@ -99,7 +99,11 @@ class LecturerController extends Controller
             'classrooms' => function (Builder $query) {
                 return $query->with([
                     'attendance' => function (Builder $builder) {
-                        return $builder->with('students');
+                        return $builder->with([
+                            'students' => function (Builder $query) {
+                                return $query->distinct();
+                            }
+                        ]);
                     }
                 ])->latest();
             },
