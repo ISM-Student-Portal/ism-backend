@@ -90,10 +90,6 @@ class AssignmentController extends Controller
             "message" => 'Success',
             "assignment" => $assignment
         ]);
-
-
-
-
     }
 
     public function downloadFile(Request $request)
@@ -117,6 +113,21 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         //
+        $assignment = Assignment::with([
+            'submissions' => function ($query) {
+                $query->with('student');
+            },
+            'course'
+        ])->find($assignment->id);
+        if (!$assignment) {
+            return response()->json([
+                "message" => "Assignment not found"
+            ], 404);
+        }
+        return response()->json([
+            "message" => 'Success',
+            "assignment" => $assignment
+        ]);
     }
 
     /**
@@ -149,7 +160,6 @@ class AssignmentController extends Controller
         return response()->json([
             'assignment' => $assignment
         ], 200);
-
     }
 
     /**

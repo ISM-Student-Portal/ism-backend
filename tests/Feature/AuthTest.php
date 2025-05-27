@@ -39,8 +39,13 @@ class AuthTest extends TestCase
                     'password' => 'password',
                 ]);
         $response->assertStatus(200);
-        dump($response);
+        // dump($response);
 
+    }
+
+    public function test_student_register_successful()
+    {
+        
     }
 
     public function test_login_wrong_email_password()

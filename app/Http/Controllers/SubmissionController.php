@@ -26,7 +26,6 @@ class SubmissionController extends Controller
             "message" => 'Success',
             "submission" => $submissions
         ]);
-
     }
 
 
@@ -94,9 +93,8 @@ class SubmissionController extends Controller
 
         return response()->json([
             "message" => 'Success',
-            "submission" => $submission->with(['student'])->get()
+            "submission" => $res
         ]);
-
     }
 
     /**
@@ -147,7 +145,6 @@ class SubmissionController extends Controller
                                 "student_id" => $user->id,
                                 "link" => $entry[1],
                             ]);
-
                         }
                         //code...
                         // $user = User::where('reg_no', '=', )
@@ -158,13 +155,11 @@ class SubmissionController extends Controller
                         array_push($errors, $e);
                     }
                 }
-
             }
             return response()->json([
                 "message" => "Attendance Marked Successfully",
                 "errors" => $errors ?? []
             ], 200);
-
         }
     }
 
@@ -206,9 +201,6 @@ class SubmissionController extends Controller
                                 $submission->grade = $entry[1];
                                 $submission->save();
                             }
-
-
-
                         }
                         //code...
                         // $user = User::where('reg_no', '=', )
@@ -219,13 +211,11 @@ class SubmissionController extends Controller
                         array_push($errors, $e);
                     }
                 }
-
             }
             return response()->json([
                 "message" => "Attendance Marked Successfully",
                 "errors" => $errors ?? []
             ], 200);
-
         }
     }
 }

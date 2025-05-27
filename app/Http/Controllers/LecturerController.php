@@ -67,7 +67,11 @@ class LecturerController extends Controller
         $courses = auth()->user()->courses->pluck('id');
         $classrooms = Classroom::with([
             'attendance' => function (Builder $builder) {
-                return $builder->with('students');
+                return $builder->with([
+                    'students' => function (Builder $query) {
+                        return $query->distinct();
+                    }
+                ]);
             },
             'course'
         ])->whereIn('course_id', $courses)->latest()->get();
@@ -82,7 +86,11 @@ class LecturerController extends Controller
         $courses = auth()->user()->courses->pluck('id');
         $assignments = Assignment::with([
             'submissions' => function (Builder $query) {
-                return $query->with('student');
+                return $query->with([
+                    'student' => function (Builder $query) {
+                        return $query->distinct();
+                    }
+                ]);
             },
             'course'
         ])->whereIn('course_id', $courses)->latest()->get();
@@ -111,7 +119,11 @@ class LecturerController extends Controller
             'assignments' => function (Builder $query) {
                 return $query->with([
                     'submissions' => function (Builder $query) {
-                        return $query->with('student');
+                        return $query->with([
+                            'student' => function (Builder $query) {
+                                return $query->distinct();
+                            }
+                        ]);
                     }
                 ])->latest();
             }
