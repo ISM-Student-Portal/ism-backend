@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\TranscriptService;
 use App\Traits\HasUUID;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -30,5 +31,16 @@ class Student extends Authenticatable implements MustVerifyEmail
     public function attendances()
     {
         return $this->belongsToMany(Attendance::class, 'student_attendance')->as('student_attendance')->withTimestamps();
+    }
+
+    public function transcript()
+    {
+        return TranscriptService::getStudentTranscript($this);
+    }
+
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
     }
 }

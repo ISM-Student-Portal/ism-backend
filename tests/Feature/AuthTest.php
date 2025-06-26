@@ -43,11 +43,6 @@ class AuthTest extends TestCase
 
     }
 
-    public function test_student_register_successful()
-    {
-        
-    }
-
     public function test_login_wrong_email_password()
     {
         $response = $this->withHeaders([

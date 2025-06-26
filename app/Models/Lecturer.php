@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\TranscriptService;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,5 +39,10 @@ class Lecturer extends Authenticatable
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function transcript()
+    {
+        return TranscriptService::getLecturerTranscript($this);
     }
 }

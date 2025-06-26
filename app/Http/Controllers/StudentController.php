@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Matscode\Paystack\Paystack;
+use Yajra\DataTables\DataTables;
 
 class StudentController extends Controller
 {
@@ -47,6 +48,8 @@ class StudentController extends Controller
         $totalPaid = Student::query()->whereHas('payments')->count();
         $totalUnpaid = Student::query()->whereDoesntHave('payments')->count();
         $totalPaidFull = Student::query()->where('payment_complete', true)->count();
+        // return DataTables::of($students)            
+        //     ->make(true);
         return response()->json([
             "status" => "success",
             "students" => $students,
@@ -248,5 +251,19 @@ class StudentController extends Controller
         $regNum = "ISM" . "/" . $date . "/" . $uniqueId;
         // dd($regNum);
         return $regNum;
+    }
+
+    public function getTranscript(Request $request)
+    {
+        $student = auth()->user();
+        if ($student) {
+            return response()->json([
+                "status" => "success",
+                "transcript" => $student->transcript()
+            ], 200);
+        }
+        return response()->json([
+            "message" => "student not found"
+        ], 404);
     }
 }

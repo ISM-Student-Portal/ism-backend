@@ -76,25 +76,8 @@ Route::group(['prefix' => 'lecturer'], function () {
     Route::get('/courses/{id}', [LecturerController::class, 'courseById'])->name('lecturer.courses')->middleware('auth:sanctum', 'active');
     Route::get('/all-classrooms', [LecturerController::class, 'allClassrooms'])->name('lecturer.classrooms')->middleware('auth:sanctum', 'active');
     Route::get('/all-assignments', [LecturerController::class, 'allAssignments'])->name('lecturer.assignments')->middleware('auth:sanctum', 'active');
-
-
-
+    Route::get('/courses/{course}/get-transcript', [LecturerController::class, 'getTranscript'])->name('lecturer.transcript')->middleware('auth:sanctum', 'active');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
@@ -106,6 +89,9 @@ Route::middleware('auth:sanctum')->post('/create-admin', [UserController::class,
 
 Route::middleware('auth:sanctum')->get('/students', [UserController::class, 'getStudents'])->name('students');
 Route::middleware('auth:sanctum')->get('/admins', [UserController::class, 'getAdmins'])->name('admins');
+Route::middleware('auth:sanctum')->get('/get-transcript', [StudentController::class, 'getTranscript'])->name('student.transcript');
+Route::get('/download-transcript', [PdfExportController::class, 'transcript'])->name('student.download')->middleware('auth:sanctum', 'active');
+
 
 
 Route::middleware('auth:sanctum')->post('/create-profile', [UserController::class, 'createProfile'])->name('create_profile');
@@ -130,6 +116,7 @@ Route::post('/password-update', [AuthController::class, 'updatePassword'])->name
 
 Route::get('/get-admission-letter', [PdfExportController::class, 'admissionLetter'])->name('admission.letter')->middleware('auth:sanctum', 'active');
 Route::middleware('auth:sanctum')->get('/get-certificate', [PdfExportController::class, 'certificate'])->name('certificate');
+Route::middleware('auth:sanctum')->get('/get-certificate-oru', [PdfExportController::class, 'certificateOru'])->name('certificate');
 
 
 

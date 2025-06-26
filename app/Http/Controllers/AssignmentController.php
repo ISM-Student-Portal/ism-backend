@@ -113,20 +113,32 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         //
-        $assignment = Assignment::with([
+        // $assignment = Assignment::with([
+        //     'submissions' => function ($query) {
+        //         $query->with([
+        //             'student' => function ($query) {
+        //                 $query->distinct();
+        //             }
+        //         ]);
+        //     },
+        //     'course'
+        // ])->find($assignment->id);
+        $data = $assignment->load([
             'submissions' => function ($query) {
-                $query->with('student');
+                $query->with([
+                    'student'
+                ])->distinct('student_id');
             },
             'course'
-        ])->find($assignment->id);
-        if (!$assignment) {
+        ]);
+        if (!$data) {
             return response()->json([
                 "message" => "Assignment not found"
             ], 404);
         }
         return response()->json([
             "message" => 'Success',
-            "assignment" => $assignment
+            "assignment" => $data
         ]);
     }
 
