@@ -49,13 +49,13 @@
     <div style="background: url('../public/imgs/oru_cert.jpeg'); background-size: cover; font-size: 20px;">
         <div style="width: 100%;height: 100%;">
 
-            <p style="position: absolute; left: 7em; top: 20em;
+            <p style="position: absolute; left: 7em; top: 21em;
   right: 0; 
   margin-inline: auto; 
-  width: 70%; color: black; font-size: 74px; 
+  width: 70%; color: black; font-size: 50px; 
   font-family: 'Rouge Script', cursive;
   font-weight: 900;
-  font-style: normal; text-align: center;">{{$name_on_cert ?? ''}}</p>
+  font-style: normal; text-align: center">{{$name_on_cert ?? ''}}</p>
         </div>
     </div>
 
